@@ -67,27 +67,47 @@ export async function POST(request: NextRequest) {
     )
 
     // Create detailed prompt for design analysis
-    const prompt = `Analyze these design works as a professional design reviewer from top companies (Apple, Google, etc.). 
+    const prompt = `You are a senior design director from a top tech company (Apple, Google, Microsoft). Analyze these design works professionally.
 
-Evaluate by criteria:
-1. Composition and visual hierarchy
-2. Typography and readability
-3. Color palette and contrast
-4. Space and balance
-5. Innovation and creativity
-6. User experience
-7. Technical execution
-8. Compliance with modern trends
+Evaluate each aspect carefully:
+1. Visual hierarchy and composition balance
+2. Typography system and readability
+3. Color theory application and accessibility
+4. White space usage and visual breathing room
+5. Innovation and creative solutions
+6. User experience and intuitive interactions
+7. Technical execution and attention to detail
+8. Alignment with modern design trends
 
-Give a score from 1 to 100 (where 90-100 is top company level).
+Scoring guide:
+- 90-100: World-class design (Apple, Google design awards level)
+- 80-89: Excellent professional work
+- 70-79: Good design with solid fundamentals
+- 60-69: Average with room for improvement
+- Below 60: Needs significant improvement
 
-Return result in JSON format:
+IMPORTANT: Return ONLY valid JSON, no additional text. The response must be parseable JSON in this exact format:
 {
-  "score": number from 1 to 100,
-  "category": "quality category",
-  "strengths": ["strength 1", "strength 2", "strength 3"],
-  "improvements": ["recommendation 1", "recommendation 2", "recommendation 3"],
-  "insights": ["detailed analysis 1", "detailed analysis 2"]
+  "score": <number between 1-100>,
+  "category": "<Outstanding|Excellent|Good|Average|Below Average|Needs Improvement>",
+  "strengths": [
+    "<specific strength about the design>",
+    "<another specific strength>",
+    "<third specific strength>",
+    "<fourth specific strength if notable>"
+  ],
+  "improvements": [
+    "<specific actionable improvement>",
+    "<another specific improvement>",
+    "<third specific improvement>",
+    "<fourth improvement if needed>"
+  ],
+  "insights": [
+    "<deep insight about what makes this design work or not work>",
+    "<analysis of the designer's skill level and potential>",
+    "<comparison to industry standards and trends>",
+    "<specific advice for reaching the next level>"
+  ]
 }`
 
     let analysisResult
@@ -119,16 +139,44 @@ Return result in JSON format:
           throw new Error('No response from OpenAI')
         }
 
+        console.log('API: OpenAI response received, length:', content.length)
+        
         try {
-          analysisResult = JSON.parse(content)
-        } catch {
-          // If JSON is not valid, create structured response
+          // Clean the content in case there's extra text
+          const jsonMatch = content.match(/\{[\s\S]*\}/)
+          const jsonString = jsonMatch ? jsonMatch[0] : content
+          
+          analysisResult = JSON.parse(jsonString)
+          
+          // Validate the structure
+          if (!analysisResult.score || !analysisResult.strengths || !analysisResult.improvements) {
+            throw new Error('Invalid response structure')
+          }
+          
+          console.log('API: Successfully parsed analysis result')
+        } catch (parseError) {
+          console.error('API: Failed to parse JSON:', parseError)
+          console.log('API: Raw content:', content.substring(0, 200))
+          
+          // Fallback to demo analysis
           analysisResult = {
-            score: Math.floor(Math.random() * 30) + 60, // 60-89
+            score: 75,
             category: "Good",
-            strengths: content.split('\n').slice(0, 3),
-            improvements: content.split('\n').slice(3, 6),
-            insights: content.split('\n').slice(6, 8)
+            strengths: [
+              "Clean and modern visual design",
+              "Good use of color and typography",
+              "Clear visual hierarchy"
+            ],
+            improvements: [
+              "Consider adding more visual interest",
+              "Improve spacing consistency",
+              "Enhance interactive elements"
+            ],
+            insights: [
+              "The design shows solid understanding of fundamental principles",
+              "There's potential for growth with more attention to details",
+              "Consider studying award-winning designs for inspiration"
+            ]
           }
         }
       } catch (openAIError) {

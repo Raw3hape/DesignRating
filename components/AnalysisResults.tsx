@@ -100,12 +100,16 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
                 Strengths
               </h2>
               <ul className="space-y-3">
-                {data.strengths.map((strength, index) => (
-                  <li key={index} className="flex items-start">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <span className="text-gray-700">{strength}</span>
-                  </li>
-                ))}
+                {data.strengths && Array.isArray(data.strengths) ? (
+                  data.strengths.map((strength, index) => (
+                    <li key={index} className="flex items-start">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-700">{typeof strength === 'string' ? strength : JSON.stringify(strength)}</span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-gray-500">No strengths data available</li>
+                )}
               </ul>
             </div>
 
@@ -118,12 +122,16 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
                 Recommendations
               </h2>
               <ul className="space-y-3">
-                {data.improvements.map((improvement, index) => (
-                  <li key={index} className="flex items-start">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <span className="text-gray-700">{improvement}</span>
-                  </li>
-                ))}
+                {data.improvements && Array.isArray(data.improvements) ? (
+                  data.improvements.map((improvement, index) => (
+                    <li key={index} className="flex items-start">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-700">{typeof improvement === 'string' ? improvement : JSON.stringify(improvement)}</span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-gray-500">No recommendations available</li>
+                )}
               </ul>
             </div>
           </div>
@@ -132,11 +140,17 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Detailed Analysis</h2>
             <div className="space-y-4">
-              {data.insights.map((insight, index) => (
-                <div key={index} className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-gray-700">{insight}</p>
+              {data.insights && Array.isArray(data.insights) && data.insights.length > 0 ? (
+                data.insights.map((insight, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-4">
+                    <p className="text-gray-700">{typeof insight === 'string' ? insight : JSON.stringify(insight)}</p>
+                  </div>
+                ))
+              ) : (
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-gray-500">No detailed analysis available</p>
                 </div>
-              ))}
+              )}
             </div>
           </div>
 

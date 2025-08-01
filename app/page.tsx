@@ -44,8 +44,16 @@ export default function Home() {
       }
 
       const data = await response.json()
-      setAnalysisData(data)
-      setUserAnalysesCount(prev => prev + 1)
+      console.log('Received analysis data:', data)
+      
+      // Ensure data has the correct structure
+      if (data && data.score) {
+        setAnalysisData(data)
+        setUserAnalysesCount(prev => prev + 1)
+      } else {
+        console.error('Invalid data structure:', data)
+        throw new Error('Invalid analysis data received')
+      }
     } catch (error) {
       console.error('Error:', error)
       alert('An error occurred during analysis. Please try again.')
