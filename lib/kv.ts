@@ -1,4 +1,4 @@
-import { put, head, list, del } from '@vercel/blob'
+import { put, head, del } from '@vercel/blob'
 import { User, Analysis, GlobalStats, DailyStats } from '@/types'
 import { FileStorage } from './storage'
 
@@ -49,7 +49,7 @@ export class KVService {
               memoryCache.set(key, { data, timestamp: Date.now() })
               return data as T
             }
-          } catch (blobError) {
+          } catch {
             // File doesn't exist
             return null
           }

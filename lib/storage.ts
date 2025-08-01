@@ -27,7 +27,7 @@ export class FileStorage {
       const filePath = this.getFilePath(key)
       const data = await fs.readFile(filePath, 'utf-8')
       return JSON.parse(data) as T
-    } catch (error) {
+    } catch {
       // File doesn't exist or other error
       return null
     }
@@ -52,7 +52,7 @@ export class FileStorage {
       await fs.unlink(filePath)
     } catch (error) {
       // Ignore if file doesn't exist
-      if ((error as any).code !== 'ENOENT') {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
         console.error(`FileStorage del error for key ${key}:`, error)
       }
     }
