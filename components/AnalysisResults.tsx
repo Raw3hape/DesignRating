@@ -138,18 +138,18 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
 
           {/* Detailed Insights */}
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Detailed Analysis</h2>
-            <div className="space-y-4">
+            <h2 className="text-xl font-bold text-gray-900 mb-6">Detailed Analysis</h2>
+            <div className="prose prose-gray max-w-none">
               {data.insights && Array.isArray(data.insights) && data.insights.length > 0 ? (
-                data.insights.map((insight, index) => (
-                  <div key={index} className="bg-gray-50 rounded-lg p-4">
-                    <p className="text-gray-700">{typeof insight === 'string' ? insight : JSON.stringify(insight)}</p>
-                  </div>
-                ))
-              ) : (
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-gray-500">No detailed analysis available</p>
+                <div className="space-y-4">
+                  {data.insights.map((insight, index) => (
+                    <p key={index} className="text-gray-700 leading-relaxed">
+                      {typeof insight === 'string' ? insight : JSON.stringify(insight)}
+                    </p>
+                  ))}
                 </div>
+              ) : (
+                <p className="text-gray-500">No detailed analysis available</p>
               )}
             </div>
           </div>
