@@ -5,14 +5,17 @@ import { ImageUpload } from '@/components/ImageUpload'
 import { AnalysisResults } from '@/components/AnalysisResults'
 import { Header } from '@/components/Header'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
+import { ScoringMethodModal } from '@/components/ScoringMethodModal'
 import { AnalysisData } from '@/types'
 import { compressImages } from '@/lib/imageCompression'
+import { Info } from 'lucide-react'
 
 export default function Home() {
   const [images, setImages] = useState<File[]>([])
   const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [userAnalysesCount, setUserAnalysesCount] = useState(0)
+  const [showScoringModal, setShowScoringModal] = useState(false)
 
   const handleAnalyze = async () => {
     if (images.length === 0) return
@@ -96,9 +99,17 @@ export default function Home() {
             </span>
           </h1>
           
-          <p className="text-xl text-gray-700 mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
             Get detailed analysis of your design work with evaluation standards of Apple, Google and other top companies
           </p>
+          
+          <button
+            onClick={() => setShowScoringModal(true)}
+            className="inline-flex items-center space-x-2 px-4 py-2 text-purple-600 bg-purple-50 hover:bg-purple-100 rounded-xl transition-colors mb-8"
+          >
+            <Info className="w-4 h-4" />
+            <span className="text-sm font-medium">How scoring works</span>
+          </button>
 
           <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100 mb-8">
             <ImageUpload 
@@ -160,6 +171,11 @@ export default function Home() {
           </div>
         </div>
       </main>
+      
+      <ScoringMethodModal 
+        isOpen={showScoringModal} 
+        onClose={() => setShowScoringModal(false)} 
+      />
     </div>
   )
 }

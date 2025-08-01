@@ -1,11 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { Share2, RotateCcw, CreditCard } from 'lucide-react'
+import { Share2, RotateCcw, CreditCard, Info } from 'lucide-react'
 import { AnalysisData } from '@/types'
 import { getScoreColors } from '@/lib/utils'
 import { ScoreDisplay } from './ScoreDisplay'
 import { PaymentModal } from './PaymentModal'
+import { ScoringMethodModal } from './ScoringMethodModal'
 
 interface AnalysisResultsProps {
   data: AnalysisData
@@ -15,6 +16,7 @@ interface AnalysisResultsProps {
 
 export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisResultsProps) {
   const [showPayment, setShowPayment] = useState(false)
+  const [showScoringModal, setShowScoringModal] = useState(false)
   const colors = getScoreColors(data.score)
   const needsPayment = userAnalysesCount > 3
 
@@ -54,7 +56,16 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Analysis Results</h1>
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <h1 className="text-3xl font-bold text-slate-900">Analysis Results</h1>
+              <button
+                onClick={() => setShowScoringModal(true)}
+                className="inline-flex items-center space-x-1 px-3 py-1 text-purple-600 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors"
+              >
+                <Info className="w-4 h-4" />
+                <span className="text-sm font-medium">Scoring</span>
+              </button>
+            </div>
             <p className="text-gray-600">Detailed assessment of your design work</p>
           </div>
 
@@ -201,6 +212,11 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
           }}
         />
       )}
+      
+      <ScoringMethodModal 
+        isOpen={showScoringModal} 
+        onClose={() => setShowScoringModal(false)} 
+      />
     </div>
   )
 }

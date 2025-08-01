@@ -27,9 +27,19 @@ const loadingMessages = [
 export function LoadingSpinner() {
   const [messageIndex, setMessageIndex] = useState(0)
   const [fadeClass, setFadeClass] = useState('opacity-100')
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    // Progress bar animation
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) return 100
+        return prev + Math.random() * 3 + 1 // Random increment between 1-4
+      })
+    }, 150)
+
+    // Message rotation
+    const messageInterval = setInterval(() => {
       setFadeClass('opacity-0')
       
       setTimeout(() => {
@@ -38,7 +48,10 @@ export function LoadingSpinner() {
       }, 300)
     }, 2000)
 
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(progressInterval)
+      clearInterval(messageInterval)
+    }
   }, [])
 
   return (
@@ -73,8 +86,10 @@ export function LoadingSpinner() {
           
           {/* Progress bar */}
           <div className="w-full bg-purple-200 rounded-full h-1 mb-6 overflow-hidden">
-            <div className="bg-gradient-to-r from-purple-500 to-violet-500 h-1 rounded-full animate-pulse" style={{ width: '100%' }}>
-              <div className="h-full bg-white/20 animate-shimmer"></div>
+            <div 
+              className="bg-gradient-to-r from-purple-500 to-violet-500 h-1 rounded-full transition-all duration-300 ease-out" 
+              style={{ width: `${Math.min(progress, 100)}%` }}
+            >
             </div>
           </div>
           

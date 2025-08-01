@@ -93,14 +93,12 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
   "strengths": [
     "<specific strength about the design>",
     "<another specific strength>",
-    "<third specific strength>",
-    "<fourth specific strength if notable>"
+    "<third specific strength>"
   ],
   "improvements": [
     "<specific actionable improvement>",
     "<another specific improvement>",
-    "<third specific improvement>",
-    "<fourth improvement if needed>"
+    "<third specific improvement>"
   ],
   "insights": [
     "<2-3 sentence paragraph about what makes this design work or not work. Discuss the core strengths and how they contribute to the overall effectiveness. Explain the design philosophy evident in the work.>",
