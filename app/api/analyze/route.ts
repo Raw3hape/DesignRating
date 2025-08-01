@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
+import { nanoid } from 'nanoid'
+import { KVService } from '@/lib/kv'
+import { Analysis } from '@/types'
 
 export const maxDuration = 60 // 60 seconds timeout
 
@@ -41,12 +44,16 @@ export async function POST(request: NextRequest) {
     }
     
     const images: File[] = []
+    let userEmail: string | null = null
     
-    // Extract all images from FormData
+    // Extract all images and email from FormData
     for (const [key, value] of formData.entries()) {
       if (key.startsWith('image') && value instanceof File) {
         images.push(value)
         console.log(`API: Found image ${key}, size: ${value.size}`)
+      } else if (key === 'email' && typeof value === 'string') {
+        userEmail = value
+        console.log('API: Found email:', userEmail)
       }
     }
 
@@ -280,6 +287,38 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
       comparison: {
         percentile,
         description: getComparisonDescription(analysisResult.score)
+      }
+    }
+
+    // Save analysis data to KV if email is provided
+    if (userEmail) {
+      try {
+        const analysisId = nanoid()
+        const analysisData: Analysis = {
+          id: analysisId,
+          email: userEmail,
+          ...result,
+          createdAt: new Date().toISOString(),
+          imagesCount: images.length
+        }
+
+        // Save individual analysis
+        await KVService.saveAnalysis(analysisData)
+        
+        // Update user analysis count
+        await KVService.incrementUserAnalysisCount(userEmail)
+        
+        // Update global stats
+        await KVService.incrementGlobalStats(0, 1) // increment analysis count
+        
+        // Update daily stats
+        const today = new Date().toISOString().split('T')[0]
+        await KVService.updateDailyStats(today, userEmail)
+        
+        console.log('API: Analysis data saved successfully')
+      } catch (saveError) {
+        console.error('Error saving analysis data:', saveError)
+        // Continue without failing the response
       }
     }
 

@@ -9,7 +9,17 @@ export function middleware(request: NextRequest) {
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
     const now = Date.now()
     const windowMs = 15 * 60 * 1000 // 15 minutes
-    const maxRequests = 10 // maximum 10 requests per 15 minutes
+    
+    // Different limits for different endpoints
+    let maxRequests = 10 // default: 10 requests per 15 minutes
+    
+    if (request.nextUrl.pathname === '/api/analyze') {
+      maxRequests = 5 // stricter limit for analysis
+    } else if (request.nextUrl.pathname === '/api/auth/email') {
+      maxRequests = 3 // very strict for email registration
+    } else if (request.nextUrl.pathname.startsWith('/api/admin/')) {
+      maxRequests = 100 // more lenient for admin
+    }
 
     const key = `${ip}:${request.nextUrl.pathname}`
     const record = rateLimitStore.get(key)

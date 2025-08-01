@@ -6,6 +6,7 @@ import { AnalysisResults } from '@/components/AnalysisResults'
 import { Header } from '@/components/Header'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import { ScoringMethodModal } from '@/components/ScoringMethodModal'
+import { EmailModal } from '@/components/EmailModal'
 import { AnalysisData } from '@/types'
 import { compressImages } from '@/lib/imageCompression'
 import { Info } from 'lucide-react'
@@ -16,6 +17,56 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
   const [userAnalysesCount, setUserAnalysesCount] = useState(0)
   const [showScoringModal, setShowScoringModal] = useState(false)
+  const [showEmailModal, setShowEmailModal] = useState(false)
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [isEmailLoading, setIsEmailLoading] = useState(false)
+
+  const handleAnalyzeClick = () => {
+    if (images.length === 0) return
+    
+    // Show email modal if user hasn't provided email
+    if (!userEmail) {
+      setShowEmailModal(true)
+      return
+    }
+    
+    // Proceed with analysis
+    handleAnalyze()
+  }
+
+  const handleEmailSubmit = async (email: string) => {
+    setIsEmailLoading(true)
+    
+    try {
+      const response = await fetch('/api/auth/email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to register email')
+      }
+
+      setUserEmail(email)
+      setShowEmailModal(false)
+      
+      // Proceed with analysis
+      setTimeout(() => {
+        handleAnalyze()
+      }, 500)
+      
+    } catch (error) {
+      console.error('Email registration error:', error)
+      alert(error instanceof Error ? error.message : 'Failed to register email. Please try again.')
+    } finally {
+      setIsEmailLoading(false)
+    }
+  }
 
   const handleAnalyze = async () => {
     if (images.length === 0) return
@@ -36,6 +87,11 @@ export default function Home() {
       compressedImages.forEach((image, index) => {
         formData.append(`image${index}`, image)
       })
+      
+      // Add email to form data
+      if (userEmail) {
+        formData.append('email', userEmail)
+      }
 
       const response = await fetch('/api/analyze', {
         method: 'POST',
@@ -68,6 +124,7 @@ export default function Home() {
   const handleReset = () => {
     setImages([])
     setAnalysisData(null)
+    // Keep email for subsequent analyses
   }
 
   if (isLoading) {
@@ -121,7 +178,7 @@ export default function Home() {
             {images.length > 0 && (
               <div className="mt-8 flex justify-center gap-4">
                 <button
-                  onClick={handleAnalyze}
+                  onClick={handleAnalyzeClick}
                   disabled={isLoading || images.length === 0}
                   className="btn-primary text-lg px-8 py-4"
                 >
@@ -175,6 +232,13 @@ export default function Home() {
       <ScoringMethodModal 
         isOpen={showScoringModal} 
         onClose={() => setShowScoringModal(false)} 
+      />
+      
+      <EmailModal
+        isOpen={showEmailModal}
+        onClose={() => setShowEmailModal(false)}
+        onSubmit={handleEmailSubmit}
+        isLoading={isEmailLoading}
       />
     </div>
   )
