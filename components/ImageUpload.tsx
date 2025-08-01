@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { X, Upload } from 'lucide-react'
 
 interface ImageUploadProps {
@@ -11,6 +11,19 @@ interface ImageUploadProps {
 
 export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [imageUrls, setImageUrls] = useState<string[]>([])
+
+  // Create and cleanup object URLs
+  useEffect(() => {
+    // Create new URLs for current images
+    const urls = images.map(image => URL.createObjectURL(image))
+    setImageUrls(urls)
+
+    // Cleanup function to revoke URLs
+    return () => {
+      urls.forEach(url => URL.revokeObjectURL(url))
+    }
+  }, [images])
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
@@ -77,7 +90,7 @@ export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) 
               <div className="aspect-square bg-slate-100 rounded-2xl overflow-hidden border border-purple-200">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={URL.createObjectURL(image)}
+                  src={imageUrls[index]}
                   alt={`Work ${index + 1}`}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />
