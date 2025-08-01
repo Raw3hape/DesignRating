@@ -158,8 +158,10 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
               <>
                 {/* Score and Summary */}
                 <div className="grid lg:grid-cols-3 gap-8">
-                  <div className="lg:col-span-1 flex justify-center">
-                    <EnhancedScoreDisplay score={data.score} category={data.category} />
+                  <div className="lg:col-span-1">
+                    <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100 flex justify-center">
+                      <EnhancedScoreDisplay score={data.score} category={data.category} />
+                    </div>
                   </div>
                   
                   <div className="lg:col-span-2 space-y-6">
