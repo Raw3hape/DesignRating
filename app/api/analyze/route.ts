@@ -131,9 +131,10 @@ Return result in JSON format:
             insights: content.split('\n').slice(6, 8)
           }
         }
-      } catch (openAIError: any) {
-        console.error('API: OpenAI error:', openAIError?.message || openAIError)
-        throw new Error(`OpenAI API error: ${openAIError?.message || 'Unknown error'}`)
+      } catch (openAIError) {
+        const errorMessage = openAIError instanceof Error ? openAIError.message : 'Unknown error'
+        console.error('API: OpenAI error:', errorMessage)
+        throw new Error(`OpenAI API error: ${errorMessage}`)
       }
     } else {
       // Demo analysis without OpenAI API
@@ -235,9 +236,9 @@ Return result in JSON format:
 
     return NextResponse.json(result)
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Analysis error:', error)
-    const errorMessage = error?.message || 'Unknown error occurred'
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
     
     // Return more specific error messages
     if (errorMessage.includes('OpenAI')) {
