@@ -61,7 +61,7 @@ export function PaymentModal({ onClose, onSuccess }: PaymentModalProps) {
         </div>
 
         <div className="bg-gray-50 rounded-lg p-4 mb-6">
-          <h3 className="font-semibold text-gray-900 mb-2">What's included:</h3>
+          <h3 className="font-semibold text-gray-900 mb-2">What&apos;s included:</h3>
           <ul className="space-y-1 text-sm text-gray-600">
             <li>• Complete analysis of up to 6 images</li>
             <li>• 100-point scale evaluation</li>
