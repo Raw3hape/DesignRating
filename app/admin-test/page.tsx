@@ -4,7 +4,11 @@ import { useState } from 'react'
 
 export default function AdminTestPage() {
   const [apiKey, setApiKey] = useState('')
-  const [result, setResult] = useState<any>(null)
+  const [result, setResult] = useState<{
+    status: number
+    ok: boolean
+    data: unknown
+  } | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 

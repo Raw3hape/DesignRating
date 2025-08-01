@@ -21,17 +21,23 @@ export function getScoreColors(score: number): ScoreColors {
     }
   } else if (score >= 70) {
     return {
+      bg: 'bg-blue-100',
+      text: 'text-blue-700',
+      border: 'border-blue-300'
+    }
+  } else if (score >= 60) {
+    return {
       bg: 'bg-green-100',
       text: 'text-green-700',
       border: 'border-green-300'
     }
-  } else if (score >= 60) {
+  } else if (score >= 50) {
     return {
       bg: 'bg-amber-100',
       text: 'text-amber-700',
       border: 'border-amber-300'
     }
-  } else if (score >= 50) {
+  } else if (score >= 40) {
     return {
       bg: 'bg-orange-100',
       text: 'text-orange-700',
@@ -47,12 +53,13 @@ export function getScoreColors(score: number): ScoreColors {
 }
 
 export function getScoreCategory(score: number): string {
-  if (score >= 90) return 'Outstanding'
-  if (score >= 80) return 'Excellent'
-  if (score >= 70) return 'Good'
-  if (score >= 60) return 'Average'
-  if (score >= 50) return 'Below Average'
-  return 'Needs Improvement'
+  if (score >= 90) return 'Exceptional'
+  if (score >= 80) return 'Outstanding'
+  if (score >= 70) return 'Very Good'
+  if (score >= 60) return 'Above Average'
+  if (score >= 50) return 'Average'
+  if (score >= 40) return 'Below Average'
+  return 'Poor'
 }
 
 export function formatImageForAPI(file: File): Promise<string> {
