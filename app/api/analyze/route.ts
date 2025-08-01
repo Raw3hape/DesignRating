@@ -5,7 +5,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-// Симуляция базы данных для рейтинга
+// Database simulation for rating
 // const analysisStats = {
 //   totalAnalyses: 15420,
 //   averageScore: 67.3,
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData()
     const images: File[] = []
     
-    // Извлекаем все изображения из FormData
+    // Extract all images from FormData
     for (const [key, value] of formData.entries()) {
       if (key.startsWith('image') && value instanceof File) {
         images.push(value)
@@ -33,12 +33,12 @@ export async function POST(request: NextRequest) {
 
     if (images.length === 0) {
       return NextResponse.json(
-        { error: 'Нет изображений для анализа' },
+        { error: 'No images for analysis' },
         { status: 400 }
       )
     }
 
-    // Конвертируем изображения в base64 для OpenAI
+    // Convert images to base64 for OpenAI
     const imageBase64Array = await Promise.all(
       images.map(async (image) => {
         const bytes = await image.arrayBuffer()
@@ -47,34 +47,34 @@ export async function POST(request: NextRequest) {
       })
     )
 
-    // Создаем подробный промпт для анализа дизайна
-    const prompt = `Проанализируй эти дизайнерские работы как профессиональный дизайн-ревьюер из топовых компаний (Apple, Google, etc.). 
+    // Create detailed prompt for design analysis
+    const prompt = `Analyze these design works as a professional design reviewer from top companies (Apple, Google, etc.). 
 
-Оцени по критериям:
-1. Композиция и визуальная иерархия
-2. Типографика и читаемость
-3. Цветовая палитра и контрастность
-4. Пространство и баланс
-5. Инновационность и креативность
-6. Пользовательский опыт
-7. Техническое исполнение
-8. Соответствие современным трендам
+Evaluate by criteria:
+1. Composition and visual hierarchy
+2. Typography and readability
+3. Color palette and contrast
+4. Space and balance
+5. Innovation and creativity
+6. User experience
+7. Technical execution
+8. Compliance with modern trends
 
-Дай оценку от 1 до 100 (где 90-100 - уровень топовых компаний).
+Give a score from 1 to 100 (where 90-100 is top company level).
 
-Верни результат в JSON формате:
+Return result in JSON format:
 {
-  "score": число от 1 до 100,
-  "category": "категория качества",
-  "strengths": ["сильная сторона 1", "сильная сторона 2", "сильная сторона 3"],
-  "improvements": ["рекомендация 1", "рекомендация 2", "рекомендация 3"],
-  "insights": ["детальный анализ 1", "детальный анализ 2"]
+  "score": number from 1 to 100,
+  "category": "quality category",
+  "strengths": ["strength 1", "strength 2", "strength 3"],
+  "improvements": ["recommendation 1", "recommendation 2", "recommendation 3"],
+  "insights": ["detailed analysis 1", "detailed analysis 2"]
 }`
 
     let analysisResult
     
     if (process.env.OPENAI_API_KEY) {
-      // Реальный анализ через OpenAI
+      // Real analysis via OpenAI
       const response = await openai.chat.completions.create({
         model: "gpt-4-vision-preview",
         messages: [
@@ -95,76 +95,76 @@ export async function POST(request: NextRequest) {
 
       const content = response.choices[0]?.message?.content
       if (!content) {
-        throw new Error('Нет ответа от OpenAI')
+        throw new Error('No response from OpenAI')
       }
 
       try {
         analysisResult = JSON.parse(content)
       } catch {
-        // Если JSON не валидный, создаем структурированный ответ
+        // If JSON is not valid, create structured response
         analysisResult = {
           score: Math.floor(Math.random() * 30) + 60, // 60-89
-          category: "Хороший",
+          category: "Good",
           strengths: content.split('\n').slice(0, 3),
           improvements: content.split('\n').slice(3, 6),
           insights: content.split('\n').slice(6, 8)
         }
       }
     } else {
-      // Демо-анализ без OpenAI API
+      // Demo analysis without OpenAI API
       const demoAnalyses = [
         {
           score: 87,
-          category: "Отличный",
+          category: "Excellent",
           strengths: [
-            "Выдающаяся композиция с четкой визуальной иерархией",
-            "Современная и стильная типографика, отличная читаемость",
-            "Гармоничная цветовая палитра с правильными акцентами"
+            "Outstanding composition with clear visual hierarchy",
+            "Modern and stylish typography, excellent readability",
+            "Harmonious color palette with proper accents"
           ],
           improvements: [
-            "Добавить больше воздуха между элементами для лучшего восприятия",
-            "Рассмотреть увеличение контрастности для некоторых текстовых элементов",
-            "Оптимизировать размещение CTA-элементов для лучшей конверсии"
+            "Add more breathing room between elements for better perception",
+            "Consider increasing contrast for some text elements",
+            "Optimize CTA element placement for better conversion"
           ],
           insights: [
-            "Дизайн демонстрирует профессиональный подход к созданию пользовательского интерфейса. Использование сетки и принципов Material Design создает ощущение качественного продукта.",
-            "Особо стоит отметить умелое использование микроанимаций и переходов, которые делают интерфейс живым и отзывчивым. Это свидетельствует о глубоком понимании UX-принципов."
+            "Design demonstrates professional approach to user interface creation. Grid usage and Material Design principles create quality product feeling.",
+            "Particularly noteworthy is skillful use of micro-animations and transitions that make interface alive and responsive. This indicates deep understanding of UX principles."
           ]
         },
         {
           score: 93,
-          category: "Выдающийся",
+          category: "Outstanding",
           strengths: [
-            "Инновационный подход к решению пользовательских задач",
-            "Безупречное техническое исполнение и внимание к деталям",
-            "Идеальный баланс функциональности и эстетики"
+            "Innovative approach to solving user tasks",
+            "Flawless technical execution and attention to detail",
+            "Perfect balance of functionality and aesthetics"
           ],
           improvements: [
-            "Рассмотреть адаптацию под различные размеры экранов",
-            "Добавить состояния для интерактивных элементов",
-            "Провести тестирование доступности для пользователей с ограниченными возможностями"
+            "Consider adaptation for different screen sizes",
+            "Add states for interactive elements",
+            "Conduct accessibility testing for users with disabilities"
           ],
           insights: [
-            "Этот дизайн находится на уровне работ топовых дизайн-студий. Каждый элемент продуман и служит конкретной цели, создавая seamless пользовательский опыт.",
-            "Особенно впечатляет использование пространства и создание эмоциональной связи с пользователем через визуальные элементы. Это работа зрелого дизайнера."
+            "This design is at the level of top design studios' work. Every element is thoughtful and serves specific purpose, creating seamless user experience.",
+            "Particularly impressive is the use of space and creating emotional connection with user through visual elements. This is mature designer's work."
           ]
         },
         {
           score: 76,
-          category: "Хороший",
+          category: "Good",
           strengths: [
-            "Четкая структура и логичная навигация",
-            "Уместное использование графических элементов",
-            "Соответствие базовым принципам UX"
+            "Clear structure and logical navigation",
+            "Appropriate use of graphic elements",
+            "Compliance with basic UX principles"
           ],
           improvements: [
-            "Улучшить визуальную иерархию через размеры и контрасты",
-            "Обновить цветовую палитру в соответствии с современными трендами",
-            "Добавить больше динамики через анимации и микроинтеракции"
+            "Improve visual hierarchy through sizes and contrasts",
+            "Update color palette according to modern trends",
+            "Add more dynamics through animations and micro-interactions"
           ],
           insights: [
-            "Дизайн показывает хорошее понимание основ, но нуждается в доработке для достижения премиального уровня. Основная структура правильная.",
-            "Рекомендуется изучить последние тренды в дизайне интерфейсов и применить их для повышения современности и привлекательности работы."
+            "Design shows good understanding of basics but needs refinement to achieve premium level. Basic structure is correct.",
+            "Recommended to study latest trends in interface design and apply them to enhance modernity and attractiveness of work."
           ]
         }
       ]
@@ -172,7 +172,7 @@ export async function POST(request: NextRequest) {
       analysisResult = demoAnalyses[Math.floor(Math.random() * demoAnalyses.length)]
     }
 
-    // Вычисляем перцентиль на основе оценки
+    // Calculate percentile based on score
     const calculatePercentile = (score: number): number => {
       if (score >= 90) return Math.floor(Math.random() * 8) + 92 // 92-99%
       if (score >= 80) return Math.floor(Math.random() * 15) + 77 // 77-91%
@@ -185,14 +185,14 @@ export async function POST(request: NextRequest) {
     const percentile = calculatePercentile(analysisResult.score)
     
     const getComparisonDescription = (score: number): string => {
-      if (score >= 90) return "Ваша работа на уровне лучших дизайнеров мира!"
-      if (score >= 80) return "Отличный результат! Вы в топе профессиональных дизайнеров."
-      if (score >= 70) return "Хороший уровень! Есть потенциал для роста."
-      if (score >= 60) return "Средний результат с хорошими перспективами улучшения."
-      return "Есть над чем поработать, но у вас есть базовые навыки."
+      if (score >= 90) return "Your work is at the level of world's best designers!"
+      if (score >= 80) return "Excellent result! You're among top professional designers."
+      if (score >= 70) return "Good level! There's potential for growth."
+      if (score >= 60) return "Average result with good improvement prospects."
+      return "There's work to be done, but you have basic skills."
     }
 
-    // Создаем URLs для изображений (в реальном проекте сохранили бы в облако)
+    // Create URLs for images (in real project would save to cloud)
     const imageUrls = imageBase64Array
 
     const result = {
@@ -211,9 +211,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(result)
 
   } catch (error) {
-    console.error('Ошибка анализа:', error)
+    console.error('Analysis error:', error)
     return NextResponse.json(
-      { error: 'Ошибка при анализе изображений' },
+      { error: 'Error analyzing images' },
       { status: 500 }
     )
   }

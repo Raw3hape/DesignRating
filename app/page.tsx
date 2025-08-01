@@ -30,15 +30,15 @@ export default function Home() {
       })
 
       if (!response.ok) {
-        throw new Error('Ошибка анализа')
+        throw new Error('Analysis error')
       }
 
       const data = await response.json()
       setAnalysisData(data)
       setUserAnalysesCount(prev => prev + 1)
     } catch (error) {
-      console.error('Ошибка:', error)
-      alert('Произошла ошибка при анализе. Попробуйте еще раз.')
+      console.error('Error:', error)
+      alert('An error occurred during analysis. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -72,14 +72,14 @@ export default function Home() {
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Профессиональная оценка 
+            Professional Design 
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              {' '}дизайна
+              {' '}Assessment
             </span>
           </h1>
           
           <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            Получите детальный анализ ваших дизайнерских работ с оценкой уровня Apple, Google и других топовых компаний
+            Get detailed analysis of your design work with evaluation standards of Apple, Google and other top companies
           </p>
 
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
@@ -96,14 +96,14 @@ export default function Home() {
                   disabled={isLoading || images.length === 0}
                   className="btn-primary text-lg px-8 py-4"
                 >
-                  {isLoading ? 'Анализируем...' : `Проанализировать ${images.length} работ${images.length > 1 ? 'ы' : 'у'}`}
+                  {isLoading ? 'Analyzing...' : `Analyze ${images.length} work${images.length > 1 ? 's' : ''}`}
                 </button>
                 
                 <button
                   onClick={handleReset}
                   className="btn-secondary text-lg px-8 py-4"
                 >
-                  Очистить
+                  Clear
                 </button>
               </div>
             )}
@@ -116,8 +116,8 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Точная оценка</h3>
-              <p className="text-gray-600">Оценка от 1 до 100 баллов с детальным анализом сильных и слабых сторон</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Precise Assessment</h3>
+              <p className="text-gray-600">Score from 1 to 100 points with detailed analysis of strengths and weaknesses</p>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-md">
@@ -126,8 +126,8 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Быстрый анализ</h3>
-              <p className="text-gray-600">Мгновенная оценка с использованием передовых алгоритмов машинного обучения</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Fast Analysis</h3>
+              <p className="text-gray-600">Instant evaluation using advanced machine learning algorithms</p>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-md">
@@ -136,8 +136,8 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Экспертные советы</h3>
-              <p className="text-gray-600">Конкретные рекомендации для улучшения дизайна и повышения профессионального уровня</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Expert Advice</h3>
+              <p className="text-gray-600">Specific recommendations for improving design and enhancing professional level</p>
             </div>
           </div>
         </div>

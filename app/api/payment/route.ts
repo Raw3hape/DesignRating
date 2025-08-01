@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-// Инициализируем Stripe только если есть ключ
+// Initialize Stripe only if key exists
 let stripe: Stripe | null = null
 
 if (process.env.STRIPE_SECRET_KEY) {
@@ -15,14 +15,14 @@ export async function POST(request: NextRequest) {
     const { returnUrl } = await request.json()
 
     if (!process.env.STRIPE_SECRET_KEY) {
-      // Демо режим без реального Stripe
+      // Demo mode without real Stripe
       return NextResponse.json({
         success: true,
         sessionId: 'demo_session_id'
       })
     }
 
-    // Создаем Checkout Session
+    // Create Checkout Session
     const session = await stripe!.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -30,10 +30,10 @@ export async function POST(request: NextRequest) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'Анализ дизайна',
-              description: 'Профессиональная оценка ваших дизайнерских работ',
+              name: 'Design Analysis',
+              description: 'Professional evaluation of your design work',
             },
-            unit_amount: 99, // $0.99 в центах
+            unit_amount: 99, // $0.99 in cents
           },
           quantity: 1,
         },
@@ -53,15 +53,15 @@ export async function POST(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('Ошибка создания платежной сессии:', error)
+    console.error('Error creating payment session:', error)
     return NextResponse.json(
-      { error: 'Ошибка при создании платежной сессии' },
+      { error: 'Error creating payment session' },
       { status: 500 }
     )
   }
 }
 
-// Webhook для обработки событий Stripe
+// Webhook for handling Stripe events
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.text()
@@ -69,7 +69,7 @@ export async function PUT(request: NextRequest) {
 
     if (!process.env.STRIPE_WEBHOOK_SECRET || !signature) {
       return NextResponse.json(
-        { error: 'Webhook не настроен' },
+        { error: 'Webhook not configured' },
         { status: 400 }
       )
     }
@@ -84,29 +84,29 @@ export async function PUT(request: NextRequest) {
       case 'checkout.session.completed':
         const session = event.data.object as Stripe.Checkout.Session
         
-        // Здесь можно сохранить информацию о платеже в базу данных
-        console.log('Платеж успешно завершен:', session.id)
+        // Here you can save payment information to database
+        console.log('Payment completed successfully:', session.id)
         
-        // Можно отправить email с подтверждением
+        // Can send confirmation email
         // await sendPaymentConfirmation(session.customer_email)
         
         break
         
       case 'payment_intent.payment_failed':
         const failedPayment = event.data.object as Stripe.PaymentIntent
-        console.log('Платеж не прошел:', failedPayment.id)
+        console.log('Payment failed:', failedPayment.id)
         break
         
       default:
-        console.log(`Необработанное событие: ${event.type}`)
+        console.log(`Unhandled event: ${event.type}`)
     }
 
     return NextResponse.json({ received: true })
 
   } catch (error) {
-    console.error('Ошибка webhook:', error)
+    console.error('Webhook error:', error)
     return NextResponse.json(
-      { error: 'Ошибка webhook' },
+      { error: 'Webhook error' },
       { status: 400 }
     )
   }

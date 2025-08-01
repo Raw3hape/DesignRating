@@ -15,7 +15,7 @@ export function PaymentModal({ onClose, onSuccess }: PaymentModalProps) {
   const handlePayment = async () => {
     setIsProcessing(true)
     
-    // Симуляция платежа (в реальном проекте здесь будет интеграция со Stripe)
+    // Payment simulation (in real project this would be Stripe integration)
     try {
       await new Promise(resolve => setTimeout(resolve, 2000))
       setIsSuccess(true)
@@ -23,7 +23,7 @@ export function PaymentModal({ onClose, onSuccess }: PaymentModalProps) {
         onSuccess()
       }, 1500)
     } catch {
-      alert('Ошибка при обработке платежа')
+      alert('Payment processing error')
       setIsProcessing(false)
     }
   }
@@ -35,8 +35,8 @@ export function PaymentModal({ onClose, onSuccess }: PaymentModalProps) {
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Check className="w-8 h-8 text-green-600" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Платеж успешен!</h2>
-          <p className="text-gray-600">Переходим к новому анализу...</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Payment successful!</h2>
+          <p className="text-gray-600">Redirecting to new analysis...</p>
         </div>
       </div>
     )
@@ -46,7 +46,7 @@ export function PaymentModal({ onClose, onSuccess }: PaymentModalProps) {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Дополнительный анализ</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Additional Analysis</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600"
@@ -57,17 +57,17 @@ export function PaymentModal({ onClose, onSuccess }: PaymentModalProps) {
 
         <div className="text-center mb-6">
           <div className="text-3xl font-bold text-purple-600 mb-2">$0.99</div>
-          <p className="text-gray-600">за один детальный анализ</p>
+          <p className="text-gray-600">for one detailed analysis</p>
         </div>
 
         <div className="bg-gray-50 rounded-lg p-4 mb-6">
-          <h3 className="font-semibold text-gray-900 mb-2">Что включено:</h3>
+          <h3 className="font-semibold text-gray-900 mb-2">What's included:</h3>
           <ul className="space-y-1 text-sm text-gray-600">
-            <li>• Полный анализ до 6 изображений</li>
-            <li>• Оценка по 100-балльной шкале</li>
-            <li>• Детальные рекомендации</li>
-            <li>• Сравнение с другими работами</li>
-            <li>• Возможность поделиться результатами</li>
+            <li>• Complete analysis of up to 6 images</li>
+            <li>• 100-point scale evaluation</li>
+            <li>• Detailed recommendations</li>
+            <li>• Comparison with other works</li>
+            <li>• Ability to share results</li>
           </ul>
         </div>
 
@@ -77,11 +77,11 @@ export function PaymentModal({ onClose, onSuccess }: PaymentModalProps) {
           className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
         >
           <CreditCard className="w-5 h-5" />
-          <span>{isProcessing ? 'Обработка...' : 'Оплатить $0.99'}</span>
+          <span>{isProcessing ? 'Processing...' : 'Pay $0.99'}</span>
         </button>
 
         <p className="text-xs text-gray-500 text-center mt-4">
-          Безопасные платежи через Stripe. Без подписок и скрытых комиссий.
+          Secure payments via Stripe. No subscriptions or hidden fees.
         </p>
       </div>
     </div>

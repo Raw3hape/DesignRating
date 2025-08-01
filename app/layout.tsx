@@ -5,8 +5,8 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "DesignRating - Оценка дизайнерских работ",
-  description: "Профессиональная оценка дизайнерских работ с использованием ИИ",
+  title: "DesignRating - Professional Design Assessment",
+  description: "Professional design work evaluation using AI technology",
 }
 
 export default function RootLayout({
@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ru">
+    <html lang="en">
       <body className={`${inter.className} antialiased bg-gray-50`}>
         {children}
       </body>

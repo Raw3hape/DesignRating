@@ -1,43 +1,43 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-// Rate limiting хранилище (в продакшене использовать Redis)
+// Rate limiting storage (use Redis in production)
 const rateLimitStore = new Map<string, { count: number; timestamp: number }>()
 
 export function middleware(request: NextRequest) {
-  // Rate limiting только для API маршрутов
+  // Rate limiting only for API routes
   if (request.nextUrl.pathname.startsWith('/api/')) {
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
     const now = Date.now()
-    const windowMs = 15 * 60 * 1000 // 15 минут
-    const maxRequests = 10 // максимум 10 запросов за 15 минут
+    const windowMs = 15 * 60 * 1000 // 15 minutes
+    const maxRequests = 10 // maximum 10 requests per 15 minutes
 
     const key = `${ip}:${request.nextUrl.pathname}`
     const record = rateLimitStore.get(key)
 
     if (record) {
-      // Сброс счетчика если прошло больше 15 минут
+      // Reset counter if more than 15 minutes passed
       if (now - record.timestamp > windowMs) {
         rateLimitStore.set(key, { count: 1, timestamp: now })
       } else if (record.count >= maxRequests) {
-        // Превышен лимит
+        // Limit exceeded
         return NextResponse.json(
           { 
-            error: 'Слишком много запросов. Попробуйте позже.',
+            error: 'Too many requests. Please try again later.',
             retryAfter: Math.ceil((record.timestamp + windowMs - now) / 1000)
           },
           { status: 429 }
         )
       } else {
-        // Увеличиваем счетчик
+        // Increment counter
         record.count++
       }
     } else {
-      // Первый запрос
+      // First request
       rateLimitStore.set(key, { count: 1, timestamp: now })
     }
 
-    // Очистка старых записей
-    if (Math.random() < 0.01) { // 1% шанс на очистку
+    // Clean up old records
+    if (Math.random() < 0.01) { // 1% chance for cleanup
       for (const [key, record] of rateLimitStore.entries()) {
         if (now - record.timestamp > windowMs) {
           rateLimitStore.delete(key)

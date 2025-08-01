@@ -42,7 +42,7 @@ export function ScoreDisplay({ score, category }: ScoreDisplayProps) {
         
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span className="text-4xl font-bold text-gray-900">{score}</span>
-          <span className="text-gray-600 text-sm">из 100</span>
+          <span className="text-gray-600 text-sm">out of 100</span>
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export function ScoreDisplay({ score, category }: ScoreDisplayProps) {
         <div className="mt-4 text-center">
           <div className="inline-flex items-center px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full border border-yellow-300">
             <span className="text-2xl mr-2">🏆</span>
-            <span className="font-medium">Уровень топовых компаний!</span>
+            <span className="font-medium">Top companies level!</span>
           </div>
         </div>
       )}

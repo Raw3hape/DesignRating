@@ -17,7 +17,7 @@ export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) 
     const validFiles = files.filter(file => file.type.startsWith('image/'))
     
     if (validFiles.length + images.length > maxImages) {
-      alert(`Можно загрузить максимум ${maxImages} изображений`)
+      alert(`You can upload maximum ${maxImages} images`)
       return
     }
 
@@ -30,7 +30,7 @@ export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) 
     const validFiles = files.filter(file => file.type.startsWith('image/'))
     
     if (validFiles.length + images.length > maxImages) {
-      alert(`Можно загрузить максимум ${maxImages} изображений`)
+      alert(`You can upload maximum ${maxImages} images`)
       return
     }
 
@@ -60,13 +60,13 @@ export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) 
         
         <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
         <h3 className="text-lg font-medium text-gray-900 mb-2">
-          Загрузите дизайнерские работы
+          Upload your design work
         </h3>
         <p className="text-gray-600 mb-4">
-          Перетащите изображения сюда или нажмите для выбора
+          Drag and drop images here or click to select
         </p>
         <p className="text-sm text-gray-500">
-          Поддерживаются JPG, PNG, GIF. Максимум {maxImages} файлов.
+          Supports JPG, PNG, GIF. Maximum {maxImages} files.
         </p>
       </div>
 
@@ -78,7 +78,7 @@ export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) 
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={URL.createObjectURL(image)}
-                  alt={`Работа ${index + 1}`}
+                  alt={`Work ${index + 1}`}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -98,7 +98,7 @@ export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) 
 
       {images.length > 0 && (
         <div className="text-center text-sm text-gray-600">
-          {images.length} из {maxImages} изображений загружено
+          {images.length} of {maxImages} images uploaded
         </div>
       )}
     </div>

@@ -19,23 +19,23 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
   const needsPayment = userAnalysesCount > 3
 
   const handleShare = async () => {
-    const text = `Мой дизайн получил ${data.score} баллов из 100 на DesignRating! 🎨✨`
+    const text = `My design scored ${data.score} out of 100 on DesignRating! 🎨✨`
     
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'DesignRating - Оценка дизайна',
+          title: 'DesignRating - Design Assessment',
           text,
           url: window.location.href,
         })
       } catch (error) {
-        console.log('Ошибка при шаринге:', error)
+        console.log('Error sharing:', error)
       }
     } else {
-      // Fallback для браузеров без поддержки Web Share API
+      // Fallback for browsers without Web Share API support
       if (navigator.clipboard) {
         await navigator.clipboard.writeText(`${text} ${window.location.href}`)
-        alert('Ссылка скопирована в буфер обмена!')
+        alert('Link copied to clipboard!')
       }
     }
   }
@@ -54,8 +54,8 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Результаты анализа</h1>
-            <p className="text-gray-600">Детальная оценка ваших дизайнерских работ</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Analysis Results</h1>
+            <p className="text-gray-600">Detailed assessment of your design work</p>
           </div>
 
           {/* Score Section */}
@@ -65,7 +65,7 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
             <div className="mt-6 text-center">
               <div className={`inline-flex items-center px-4 py-2 rounded-full ${colors.bg} ${colors.text} ${colors.border} border`}>
                 <span className="font-medium">
-                  Ваш результат лучше {data.comparison.percentile}% других работ
+                  Your result is better than {data.comparison.percentile}% of other works
                 </span>
               </div>
               <p className="text-gray-600 mt-2">{data.comparison.description}</p>
@@ -74,14 +74,14 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
 
           {/* Images Preview */}
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Проанализированные работы</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Analyzed Works</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {data.images.map((image, index) => (
                 <div key={index} className="aspect-square rounded-lg overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={image}
-                    alt={`Работа ${index + 1}`}
+                    alt={`Work ${index + 1}`}
                     className="w-full h-full object-cover hover:scale-105 transition-transform"
                   />
                 </div>
@@ -97,7 +97,7 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
                 <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
                   <span className="text-green-600">✓</span>
                 </div>
-                Сильные стороны
+                Strengths
               </h2>
               <ul className="space-y-3">
                 {data.strengths.map((strength, index) => (
@@ -115,7 +115,7 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
                 <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
                   <span className="text-orange-600">→</span>
                 </div>
-                Рекомендации
+                Recommendations
               </h2>
               <ul className="space-y-3">
                 {data.improvements.map((improvement, index) => (
@@ -130,7 +130,7 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
 
           {/* Detailed Insights */}
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Детальный анализ</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Detailed Analysis</h2>
             <div className="space-y-4">
               {data.insights.map((insight, index) => (
                 <div key={index} className="bg-gray-50 rounded-lg p-4">
@@ -147,7 +147,7 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
               className="flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               <Share2 className="w-5 h-5" />
-              <span>Поделиться</span>
+              <span>Share</span>
             </button>
 
             <button
@@ -157,12 +157,12 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
               {needsPayment ? (
                 <>
                   <CreditCard className="w-5 h-5" />
-                  <span>Новый анализ ($0.99)</span>
+                  <span>New Analysis ($0.99)</span>
                 </>
               ) : (
                 <>
                   <RotateCcw className="w-5 h-5" />
-                  <span>Новый анализ</span>
+                  <span>New Analysis</span>
                 </>
               )}
             </button>
@@ -172,7 +172,7 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
               className="flex items-center space-x-2 bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors"
             >
               <RotateCcw className="w-5 h-5" />
-              <span>Начать заново</span>
+              <span>Start Over</span>
             </button>
           </div>
         </div>

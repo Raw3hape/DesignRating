@@ -21,11 +21,11 @@ export function Header({ analysesCount }: HeaderProps) {
           <div className="flex items-center space-x-4">
             {freeAnalysesLeft > 0 ? (
               <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                {freeAnalysesLeft} бесплатных анализа
+                {freeAnalysesLeft} free analysis left
               </div>
             ) : (
               <div className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
-                $0.99 за анализ
+                $0.99 per analysis
               </div>
             )}
           </div>

@@ -47,12 +47,12 @@ export function getScoreColors(score: number): ScoreColors {
 }
 
 export function getScoreCategory(score: number): string {
-  if (score >= 90) return 'Выдающийся'
-  if (score >= 80) return 'Отличный'
-  if (score >= 70) return 'Хороший'
-  if (score >= 60) return 'Средний'
-  if (score >= 50) return 'Ниже среднего'
-  return 'Требует улучшения'
+  if (score >= 90) return 'Outstanding'
+  if (score >= 80) return 'Excellent'
+  if (score >= 70) return 'Good'
+  if (score >= 60) return 'Average'
+  if (score >= 50) return 'Below Average'
+  return 'Needs Improvement'
 }
 
 export function formatImageForAPI(file: File): Promise<string> {

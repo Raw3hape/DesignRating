@@ -2,60 +2,60 @@
   "demoAnalyses": [
     {
       "score": 92,
-      "category": "Выдающийся",
+      "category": "Outstanding",
       "strengths": [
-        "Идеальное использование золотого сечения в композиции",
-        "Элегантная типографическая иерархия с отличной читаемостью",
-        "Современная цветовая палитра с гармоничными акцентами",
-        "Интуитивно понятная навигация и UX-флоу"
+        "Perfect use of golden ratio in composition",
+        "Elegant typographic hierarchy with excellent readability",
+        "Modern color palette with harmonious accents",
+        "Intuitive navigation and UX-flow"
       ],
       "improvements": [
-        "Рассмотреть увеличение контрастности для accessibility",
-        "Добавить микроанимации для улучшения взаимодействия",
-        "Оптимизировать размещение CTA-элементов"
+        "Consider increasing contrast for accessibility",
+        "Add micro-animations to enhance interaction",
+        "Optimize CTA element placement"
       ],
       "insights": [
-        "Дизайн демонстрирует глубокое понимание принципов визуального дизайна и пользовательского опыта. Использование пространства и создание визуальной иерархии находится на уровне работ топовых дизайн-студий.",
-        "Особенно впечатляет баланс между функциональностью и эстетикой. Каждый элемент имеет четкую цель и органично вписывается в общую концепцию, создавая seamless пользовательский опыт."
+        "Design demonstrates deep understanding of visual design and user experience principles. Space usage and visual hierarchy creation is at the level of top design studios' work.",
+        "Particularly impressive is the balance between functionality and aesthetics. Every element has clear purpose and organically fits into overall concept, creating seamless user experience."
       ]
     },
     {
       "score": 78,
-      "category": "Хороший", 
+      "category": "Good", 
       "strengths": [
-        "Четкая структура и логичная организация контента",
-        "Соответствие базовым принципам Material Design",
-        "Правильное использование сетки и выравнивания"
+        "Clear structure and logical content organization",
+        "Compliance with basic Material Design principles",
+        "Proper grid and alignment usage"
       ],
       "improvements": [
-        "Улучшить визуальную иерархию через размеры и веса шрифтов",
-        "Обновить цветовую палитру в соответствии с трендами 2024",
-        "Добавить больше динамики через анимации и интерактивность",
-        "Пересмотреть spacing между элементами для лучшего восприятия"
+        "Improve visual hierarchy through font sizes and weights",
+        "Update color palette according to 2024 trends",
+        "Add more dynamics through animations and interactivity",
+        "Reconsider spacing between elements for better perception"
       ],
       "insights": [
-        "Дизайн показывает хорошее понимание основ UX/UI, но нуждается в доработке для достижения премиального уровня. Основная структура правильная, что является хорошей основой для дальнейшего развития.",
-        "Рекомендуется изучить последние тренды в дизайне интерфейсов и применить современные подходы к микроинтеракциям и визуальной подаче контента."
+        "Design shows good understanding of UX/UI basics but needs refinement to achieve premium level. Basic structure is correct, which is good foundation for further development.",
+        "Recommended to study latest trends in interface design and apply modern approaches to micro-interactions and visual content presentation."
       ]
     },
     {
       "score": 65,
-      "category": "Средний",
+      "category": "Average",
       "strengths": [
-        "Базовая функциональность реализована корректно",
-        "Понятная структура навигации",
-        "Использование стандартных UI-паттернов"
+        "Basic functionality implemented correctly",
+        "Clear navigation structure",
+        "Use of standard UI patterns"
       ],
       "improvements": [
-        "Значительно улучшить визуальную иерархию и композицию",
-        "Пересмотреть выбор цветов и создать более гармоничную палитру",
-        "Улучшить типографику и spacing между элементами",
-        "Добавить визуальную привлекательность через иллюстрации или иконки",
-        "Оптимизировать UX-флоу для более интуитивного использования"
+        "Significantly improve visual hierarchy and composition",
+        "Reconsider color choices and create more harmonious palette",
+        "Improve typography and spacing between elements",
+        "Add visual appeal through illustrations or icons",
+        "Optimize UX-flow for more intuitive usage"
       ],
       "insights": [
-        "Дизайн выполняет базовые функции, но упускает возможности для создания более привлекательного и современного интерфейса. Есть потенциал для значительного улучшения.",
-        "Рекомендуется больше внимания уделить изучению современных дизайн-систем и принципов создания пользовательских интерфейсов. Фокус на детали и полировка помогут поднять работу на новый уровень."
+        "Design fulfills basic functions but misses opportunities to create more attractive and modern interface. There's potential for significant improvement.",
+        "Recommended to pay more attention to studying modern design systems and user interface creation principles. Focus on details and polishing will help elevate work to new level."
       ]
     }
   ]
