@@ -7,43 +7,43 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getScoreColors(score: number): ScoreColors {
-  if (score >= 90) {
+  if (score >= 85) {
+    // 100-85: фиолетовый
     return {
       bg: 'bg-purple-100',
       text: 'text-purple-700',
       border: 'border-purple-300'
     }
-  } else if (score >= 80) {
-    return {
-      bg: 'bg-violet-100',
-      text: 'text-violet-700',
-      border: 'border-violet-300'
-    }
   } else if (score >= 70) {
+    // 84-70: голубой
     return {
       bg: 'bg-blue-100',
       text: 'text-blue-700',
       border: 'border-blue-300'
     }
   } else if (score >= 60) {
+    // 69-60: зеленый
     return {
       bg: 'bg-green-100',
       text: 'text-green-700',
       border: 'border-green-300'
     }
   } else if (score >= 50) {
+    // 59-50: желтый
     return {
-      bg: 'bg-amber-100',
-      text: 'text-amber-700',
-      border: 'border-amber-300'
+      bg: 'bg-yellow-100',
+      text: 'text-yellow-700',
+      border: 'border-yellow-300'
     }
   } else if (score >= 40) {
+    // 49-40: оранжевый
     return {
       bg: 'bg-orange-100',
       text: 'text-orange-700',
       border: 'border-orange-300'
     }
   } else {
+    // 39-0: красный
     return {
       bg: 'bg-red-100',
       text: 'text-red-700',
@@ -53,10 +53,9 @@ export function getScoreColors(score: number): ScoreColors {
 }
 
 export function getScoreCategory(score: number): string {
-  if (score >= 90) return 'Exceptional'
-  if (score >= 80) return 'Outstanding'
-  if (score >= 70) return 'Very Good'
-  if (score >= 60) return 'Above Average'
+  if (score >= 85) return 'Exceptional'
+  if (score >= 70) return 'Outstanding'
+  if (score >= 60) return 'Very Good'
   if (score >= 50) return 'Average'
   if (score >= 40) return 'Below Average'
   return 'Poor'

@@ -87,13 +87,12 @@ Evaluate each aspect with extreme scrutiny:
 8. Alignment with modern design trends - Distinguish between following and leading trends
 
 CRITICAL Scoring guide (BE VERY STRICT):
-- 90-100: Exceptional, award-winning design (less than 1% of all work) - Must be flawless AND innovative
-- 80-89: Outstanding professional work (top 5%) - Near-perfect execution with unique elements
-- 70-79: Very good design (top 15%) - Strong fundamentals with minor flaws
-- 60-69: Above average (top 30%) - Competent but lacks distinction
+- 85-100: Exceptional, award-winning design (less than 1% of all work) - Must be flawless AND innovative
+- 70-84: Outstanding professional work (top 5%) - Near-perfect execution with unique elements
+- 60-69: Very good design (top 15%) - Strong fundamentals with minor flaws
 - 50-59: Average work (middle 40%) - Acceptable but forgettable
 - 40-49: Below average (bottom 20%) - Clear weaknesses outweigh strengths
-- Below 40: Poor quality (bottom 10%) - Fundamental issues throughout
+- 0-39: Poor quality (bottom 10%) - Fundamental issues throughout
 
 Remember: Most professional work falls in the 50-70 range. Scores above 80 should be RARE. Be honest and strict.
 
@@ -309,22 +308,20 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
 
     // Calculate percentile based on score (adjusted for stricter scoring)
     const calculatePercentile = (score: number): number => {
-      if (score >= 90) return Math.floor(Math.random() * 3) + 97  // 97-99% (top 1%)
-      if (score >= 80) return Math.floor(Math.random() * 5) + 92  // 92-96% (top 5%)
-      if (score >= 70) return Math.floor(Math.random() * 10) + 82 // 82-91% (top 15%)
-      if (score >= 60) return Math.floor(Math.random() * 15) + 67 // 67-81% (top 30%)
-      if (score >= 50) return Math.floor(Math.random() * 20) + 47 // 47-66% (middle 40%)
-      if (score >= 40) return Math.floor(Math.random() * 20) + 27 // 27-46% (bottom 20%)
-      return Math.floor(Math.random() * 26) + 1 // 1-26% (bottom 10%)
+      if (score >= 85) return Math.floor(Math.random() * 4) + 96  // 96-99% (top 1%)
+      if (score >= 70) return Math.floor(Math.random() * 11) + 85 // 85-95% (top 5%)
+      if (score >= 60) return Math.floor(Math.random() * 15) + 70 // 70-84% (top 15%)
+      if (score >= 50) return Math.floor(Math.random() * 30) + 40 // 40-69% (middle 40%)
+      if (score >= 40) return Math.floor(Math.random() * 20) + 20 // 20-39% (bottom 20%)
+      return Math.floor(Math.random() * 19) + 1 // 1-19% (bottom 10%)
     }
 
     const percentile = calculatePercentile(analysisResult.score)
     
     const getComparisonDescription = (score: number): string => {
-      if (score >= 90) return "Exceptional work approaching world-class standards - extremely rare achievement!"
-      if (score >= 80) return "Outstanding professional level - you're among the industry's best designers."
-      if (score >= 70) return "Very strong work showing advanced skills - well above average professional standard."
-      if (score >= 60) return "Good professional level with room to grow - better than most but not yet exceptional."
+      if (score >= 85) return "Exceptional work approaching world-class standards - extremely rare achievement!"
+      if (score >= 70) return "Outstanding professional level - you're among the industry's best designers."
+      if (score >= 60) return "Very strong work showing advanced skills - well above average professional standard."
       if (score >= 50) return "Average professional work - meets industry standards but needs refinement."
       if (score >= 40) return "Below professional standards - significant improvement needed to compete."
       return "Fundamental skills require development - focus on mastering basics first."

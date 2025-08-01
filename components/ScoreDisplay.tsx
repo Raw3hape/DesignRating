@@ -30,7 +30,7 @@ export function ScoreDisplay({ score, category }: ScoreDisplayProps) {
             cx="50"
             cy="50"
             r="45"
-            stroke={score >= 90 ? '#8B5CF6' : score >= 80 ? '#A855F7' : score >= 70 ? '#C084FC' : score >= 60 ? '#D8B4FE' : score >= 50 ? '#E879F9' : '#F0ABFC'}
+            stroke={score >= 85 ? '#9333EA' : score >= 70 ? '#3B82F6' : score >= 60 ? '#10B981' : score >= 50 ? '#EAB308' : score >= 40 ? '#F97316' : '#EF4444'}
             strokeWidth="8"
             fill="none"
             strokeLinecap="round"
@@ -50,7 +50,7 @@ export function ScoreDisplay({ score, category }: ScoreDisplayProps) {
         <span className="text-lg font-semibold">{category}</span>
       </div>
 
-      {score >= 90 && (
+      {score >= 85 && (
         <div className="mt-4 text-center">
           <div className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-700 rounded-full border border-purple-200">
             <span className="text-2xl mr-2">🏆</span>
