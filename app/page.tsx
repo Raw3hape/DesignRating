@@ -6,6 +6,7 @@ import { AnalysisResults } from '@/components/AnalysisResults'
 import { Header } from '@/components/Header'
 import { LoadingSpinner } from '@/components/LoadingSpinner'
 import { AnalysisData } from '@/types'
+import { compressImages } from '@/lib/imageCompression'
 
 export default function Home() {
   const [images, setImages] = useState<File[]>([])
@@ -19,8 +20,11 @@ export default function Home() {
     setIsLoading(true)
     
     try {
+      // Compress images before sending
+      const compressedImages = await compressImages(images)
+      
       const formData = new FormData()
-      images.forEach((image, index) => {
+      compressedImages.forEach((image, index) => {
         formData.append(`image${index}`, image)
       })
 

@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['localhost'],
+  api: {
+    bodyParser: {
+      sizeLimit: '20mb',
+    },
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '20mb',
+    },
   },
 }
 

@@ -6,7 +6,8 @@
   "outputDirectory": ".next",
   "functions": {
     "app/api/analyze/route.ts": {
-      "maxDuration": 30
+      "maxDuration": 60,
+      "runtime": "nodejs20.x"
     },
     "app/api/payment/route.ts": {
       "maxDuration": 10
