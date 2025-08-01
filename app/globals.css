@@ -4,17 +4,49 @@
 
 @layer base {
   html {
-    font-family: system-ui, sans-serif;
+    @apply bg-dark text-gray-200;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    @apply bg-dark;
   }
 }
 
 @layer components {
+  /* Primary button with amber accent */
   .btn-primary {
-    @apply bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-amber text-dark px-6 py-3 rounded-full font-medium hover:bg-amber-light transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
+  /* Secondary button */
   .btn-secondary {
-    @apply bg-white text-gray-700 px-6 py-3 rounded-lg font-medium border border-gray-300 hover:bg-gray-50 transition-all duration-200;
+    @apply bg-dark-200 text-gray-200 px-6 py-3 rounded-full font-medium border border-dark-300 hover:bg-dark-300 transition-all duration-200;
+  }
+  
+  /* Dark card component */
+  .card-dark {
+    @apply bg-dark-100 rounded-card border border-dark-300 p-6;
+  }
+  
+  /* Metric card */
+  .metric-card {
+    @apply bg-dark-100 rounded-card p-4 border border-dark-300;
+  }
+  
+  /* Tag styles */
+  .tag {
+    @apply inline-flex items-center px-3 py-1 rounded-tag text-sm font-medium;
+  }
+  
+  .tag-amber {
+    @apply bg-amber text-dark;
+  }
+  
+  .tag-dark {
+    @apply bg-dark-200 text-gray-400;
   }
 }
 

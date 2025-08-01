@@ -30,39 +30,39 @@ export function PaymentModal({ onClose, onSuccess }: PaymentModalProps) {
 
   if (isSuccess) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Check className="w-8 h-8 text-green-600" />
+      <div className="fixed inset-0 bg-dark/80 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="bg-dark-100 border border-dark-300 rounded-2xl p-8 max-w-md w-full mx-4 text-center">
+          <div className="w-16 h-16 bg-green-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Check className="w-8 h-8 text-green-400" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Payment successful!</h2>
-          <p className="text-gray-600">Redirecting to new analysis...</p>
+          <h2 className="text-2xl font-bold text-gray-200 mb-2">Payment successful!</h2>
+          <p className="text-gray-400">Redirecting to new analysis...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4">
+    <div className="fixed inset-0 bg-dark/80 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-dark-100 border border-dark-300 rounded-2xl p-8 max-w-md w-full mx-4">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Additional Analysis</h2>
+          <h2 className="text-2xl font-bold text-gray-200">Additional Analysis</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-300 transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
         </div>
 
         <div className="text-center mb-6">
-          <div className="text-3xl font-bold text-purple-600 mb-2">$0.99</div>
-          <p className="text-gray-600">for one detailed analysis</p>
+          <div className="text-3xl font-bold text-amber mb-2">$0.99</div>
+          <p className="text-gray-400">for one detailed analysis</p>
         </div>
 
-        <div className="bg-gray-50 rounded-lg p-4 mb-6">
-          <h3 className="font-semibold text-gray-900 mb-2">What&apos;s included:</h3>
-          <ul className="space-y-1 text-sm text-gray-600">
+        <div className="bg-dark-200 border border-dark-300 rounded-card p-4 mb-6">
+          <h3 className="font-semibold text-gray-200 mb-2">What&apos;s included:</h3>
+          <ul className="space-y-1 text-sm text-gray-300">
             <li>• Complete analysis of up to 6 images</li>
             <li>• 100-point scale evaluation</li>
             <li>• Detailed recommendations</li>
@@ -74,7 +74,7 @@ export function PaymentModal({ onClose, onSuccess }: PaymentModalProps) {
         <button
           onClick={handlePayment}
           disabled={isProcessing}
-          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+          className="btn-primary w-full py-3 font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
         >
           <CreditCard className="w-5 h-5" />
           <span>{isProcessing ? 'Processing...' : 'Pay $0.99'}</span>

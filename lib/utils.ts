@@ -9,39 +9,39 @@ export function cn(...inputs: ClassValue[]) {
 export function getScoreColors(score: number): ScoreColors {
   if (score >= 90) {
     return {
-      bg: 'bg-purple-100',
-      text: 'text-purple-800',
-      border: 'border-purple-300'
+      bg: 'bg-amber/20',
+      text: 'text-amber',
+      border: 'border-amber/50'
     }
   } else if (score >= 80) {
     return {
-      bg: 'bg-blue-100',
-      text: 'text-blue-800',
-      border: 'border-blue-300'
+      bg: 'bg-green-400/20',
+      text: 'text-green-400',
+      border: 'border-green-400/50'
     }
   } else if (score >= 70) {
     return {
-      bg: 'bg-green-100',
-      text: 'text-green-800',
-      border: 'border-green-300'
+      bg: 'bg-blue-400/20',
+      text: 'text-blue-400',
+      border: 'border-blue-400/50'
     }
   } else if (score >= 60) {
     return {
-      bg: 'bg-yellow-100',
-      text: 'text-yellow-800',
-      border: 'border-yellow-300'
+      bg: 'bg-yellow-400/20',
+      text: 'text-yellow-400',
+      border: 'border-yellow-400/50'
     }
   } else if (score >= 50) {
     return {
-      bg: 'bg-orange-100',
-      text: 'text-orange-800',
-      border: 'border-orange-300'
+      bg: 'bg-orange-400/20',
+      text: 'text-orange-400',
+      border: 'border-orange-400/50'
     }
   } else {
     return {
-      bg: 'bg-red-100',
-      text: 'text-red-800',
-      border: 'border-red-300'
+      bg: 'bg-red-400/20',
+      text: 'text-red-400',
+      border: 'border-red-400/50'
     }
   }
 }
