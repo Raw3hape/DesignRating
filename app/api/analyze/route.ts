@@ -26,13 +26,27 @@ const openai = new OpenAI({
 
 export async function POST(request: NextRequest) {
   try {
-    const formData = await request.formData()
+    // Log request details for debugging
+    console.log('API: Received request')
+    
+    let formData: FormData
+    try {
+      formData = await request.formData()
+    } catch (error) {
+      console.error('API: Error parsing formData:', error)
+      return NextResponse.json(
+        { error: 'Invalid request format' },
+        { status: 400 }
+      )
+    }
+    
     const images: File[] = []
     
     // Extract all images from FormData
     for (const [key, value] of formData.entries()) {
       if (key.startsWith('image') && value instanceof File) {
         images.push(value)
+        console.log(`API: Found image ${key}, size: ${value.size}`)
       }
     }
 
@@ -79,41 +93,47 @@ Return result in JSON format:
     let analysisResult
     
     if (process.env.OPENAI_API_KEY) {
-      // Real analysis via OpenAI
-      const response = await openai.chat.completions.create({
-        model: "gpt-4-vision-preview",
-        messages: [
-          {
-            role: "user",
-            content: [
-              { type: "text", text: prompt },
-              ...imageBase64Array.map(base64 => ({
-                type: "image_url" as const,
-                image_url: { url: base64, detail: "high" as const }
-              }))
-            ],
-          },
-        ],
-        max_tokens: 1500,
-        temperature: 0.7,
-      })
-
-      const content = response.choices[0]?.message?.content
-      if (!content) {
-        throw new Error('No response from OpenAI')
-      }
-
+      console.log('API: Using OpenAI for analysis')
       try {
-        analysisResult = JSON.parse(content)
-      } catch {
-        // If JSON is not valid, create structured response
-        analysisResult = {
-          score: Math.floor(Math.random() * 30) + 60, // 60-89
-          category: "Good",
-          strengths: content.split('\n').slice(0, 3),
-          improvements: content.split('\n').slice(3, 6),
-          insights: content.split('\n').slice(6, 8)
+        // Real analysis via OpenAI
+        const response = await openai.chat.completions.create({
+          model: "gpt-4o",
+          messages: [
+            {
+              role: "user",
+              content: [
+                { type: "text", text: prompt },
+                ...imageBase64Array.map(base64 => ({
+                  type: "image_url" as const,
+                  image_url: { url: base64, detail: "low" as const }
+                }))
+              ],
+            },
+          ],
+          max_tokens: 1500,
+          temperature: 0.7,
+        })
+
+        const content = response.choices[0]?.message?.content
+        if (!content) {
+          throw new Error('No response from OpenAI')
         }
+
+        try {
+          analysisResult = JSON.parse(content)
+        } catch {
+          // If JSON is not valid, create structured response
+          analysisResult = {
+            score: Math.floor(Math.random() * 30) + 60, // 60-89
+            category: "Good",
+            strengths: content.split('\n').slice(0, 3),
+            improvements: content.split('\n').slice(3, 6),
+            insights: content.split('\n').slice(6, 8)
+          }
+        }
+      } catch (openAIError: any) {
+        console.error('API: OpenAI error:', openAIError?.message || openAIError)
+        throw new Error(`OpenAI API error: ${openAIError?.message || 'Unknown error'}`)
       }
     } else {
       // Demo analysis without OpenAI API
@@ -215,10 +235,20 @@ Return result in JSON format:
 
     return NextResponse.json(result)
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Analysis error:', error)
+    const errorMessage = error?.message || 'Unknown error occurred'
+    
+    // Return more specific error messages
+    if (errorMessage.includes('OpenAI')) {
+      return NextResponse.json(
+        { error: 'AI service temporarily unavailable. Please try again.' },
+        { status: 503 }
+      )
+    }
+    
     return NextResponse.json(
-      { error: 'Error analyzing images' },
+      { error: 'Error analyzing images. Please try again with smaller images.' },
       { status: 500 }
     )
   }
