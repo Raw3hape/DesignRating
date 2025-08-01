@@ -4,6 +4,8 @@ export interface AnalysisData {
   insights: string[]
   improvements: string[]
   strengths: string[]
+  positives: string[]
+  negatives: string[]
   images: string[]
   comparison: {
     percentile: number
@@ -39,6 +41,8 @@ export interface Analysis {
   insights: string[]
   improvements: string[]
   strengths: string[]
+  positives: string[]
+  negatives: string[]
   images: string[]
   comparison: {
     percentile: number

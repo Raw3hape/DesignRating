@@ -100,21 +100,68 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
             </div>
           </div>
 
+          {/* Positives & Negatives */}
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            {/* What's Good */}
+            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
+              <h2 className="text-xl font-bold text-green-500 mb-4 flex items-center">
+                <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
+                  <span className="text-green-500">✓</span>
+                </div>
+                What&apos;s Good
+              </h2>
+              <ul className="space-y-3">
+                {data.positives && Array.isArray(data.positives) ? (
+                  data.positives.map((positive, index) => (
+                    <li key={index} className="flex items-start">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-700">{typeof positive === 'string' ? positive : JSON.stringify(positive)}</span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-gray-500">No positive aspects data available</li>
+                )}
+              </ul>
+            </div>
+
+            {/* What's Bad */}
+            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
+              <h2 className="text-xl font-bold text-red-500 mb-4 flex items-center">
+                <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center mr-3">
+                  <span className="text-red-500">×</span>
+                </div>
+                What Needs Work
+              </h2>
+              <ul className="space-y-3">
+                {data.negatives && Array.isArray(data.negatives) ? (
+                  data.negatives.map((negative, index) => (
+                    <li key={index} className="flex items-start">
+                      <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-700">{typeof negative === 'string' ? negative : JSON.stringify(negative)}</span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-gray-500">No negative aspects data available</li>
+                )}
+              </ul>
+            </div>
+          </div>
+
           {/* Analysis Details */}
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             {/* Strengths */}
             <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
-              <h2 className="text-xl font-bold text-green-400 mb-4 flex items-center">
-                <div className="w-8 h-8 bg-green-400/20 rounded-lg flex items-center justify-center mr-3">
-                  <span className="text-green-400">✓</span>
+              <h2 className="text-xl font-bold text-blue-500 mb-4 flex items-center">
+                <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
+                  <span className="text-blue-500">★</span>
                 </div>
-                Strengths
+                Key Strengths
               </h2>
               <ul className="space-y-3">
                 {data.strengths && Array.isArray(data.strengths) ? (
                   data.strengths.map((strength, index) => (
                     <li key={index} className="flex items-start">
-                      <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                       <span className="text-gray-700">{typeof strength === 'string' ? strength : JSON.stringify(strength)}</span>
                     </li>
                   ))
@@ -130,7 +177,7 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
                 <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
                   <span className="text-purple-600">→</span>
                 </div>
-                Recommendations
+                Improvement Tips
               </h2>
               <ul className="space-y-3">
                 {data.improvements && Array.isArray(data.improvements) ? (

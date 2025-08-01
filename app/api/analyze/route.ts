@@ -101,6 +101,16 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
 {
   "score": <number between 1-100>,
   "category": "<Outstanding|Excellent|Good|Average|Below Average|Needs Improvement>",
+  "positives": [
+    "<specific positive aspect about the design>",
+    "<another positive aspect>",
+    "<third positive aspect>"
+  ],
+  "negatives": [
+    "<specific negative aspect or flaw>",
+    "<another negative aspect>",
+    "<third negative aspect>"
+  ],
   "strengths": [
     "<specific strength about the design>",
     "<another specific strength>",
@@ -170,6 +180,16 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
           analysisResult = {
             score: 58,
             category: "Average",
+            positives: [
+              "Basic design principles are applied",
+              "Color choices are harmonious",
+              "Layout is functional"
+            ],
+            negatives: [
+              "Lacks visual impact and memorability",
+              "Typography is uninspired and basic",
+              "No unique design elements or innovation"
+            ],
             strengths: [
               "Clean and modern visual design",
               "Good use of color and typography",
@@ -198,6 +218,16 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
         {
           score: 72,
           category: "Very Good",
+          positives: [
+            "Clean and organized layout structure",
+            "Effective use of white space",
+            "Good contrast ratios for readability"
+          ],
+          negatives: [
+            "Grid alignment issues in several sections",
+            "Inconsistent spacing between elements",
+            "Limited innovation in visual approach"
+          ],
           strengths: [
             "Visual hierarchy is well-established with good use of size contrast",
             "Typography choices are modern and mostly consistent",
@@ -217,6 +247,16 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
         {
           score: 84,
           category: "Outstanding",
+          positives: [
+            "Exceptional visual storytelling and flow",
+            "Sophisticated use of micro-animations",
+            "Strong brand identity throughout"
+          ],
+          negatives: [
+            "Mobile optimization could be better",
+            "Some elements feel over-designed",
+            "Accessibility considerations missing in places"
+          ],
           strengths: [
             "Strong conceptual approach with unique problem-solving",
             "Excellent technical execution with minimal flaws",
@@ -236,6 +276,16 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
         {
           score: 65,
           category: "Above Average",
+          positives: [
+            "Clear information architecture",
+            "Functional user interface",
+            "Consistent color usage"
+          ],
+          negatives: [
+            "Typography lacks personality and hierarchy",
+            "Visual design feels generic and safe",
+            "Missing attention to detail in many areas"
+          ],
           strengths: [
             "Basic structure follows standard conventions",
             "Navigation is functional and findable",
@@ -289,6 +339,8 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
       insights: analysisResult.insights,
       improvements: analysisResult.improvements,
       strengths: analysisResult.strengths,
+      positives: analysisResult.positives,
+      negatives: analysisResult.negatives,
       images: imageUrls,
       comparison: {
         percentile,
