@@ -23,23 +23,10 @@ const loadingMessages = [
   "Calculating aesthetic score..."
 ]
 
-const funFacts = [
-  "💡 Did you know? Great design is 50% inspiration and 50% iteration",
-  "🎨 The best designers steal like artists and transform like magicians",
-  "✨ White space is not empty space, it's breathing room for design",
-  "🌈 Colors can increase brand recognition by up to 80%",
-  "📐 The golden ratio appears in nature, art, and the best logos",
-  "🔤 Typography is 95% of web design",
-  "👁️ It takes 0.05 seconds to form a first impression",
-  "🎯 Good design is obvious. Great design is transparent",
-  "🚀 Simplicity is the ultimate sophistication",
-  "💭 Design is thinking made visual"
-]
 
 export function LoadingSpinner() {
   const [messageIndex, setMessageIndex] = useState(0)
   const [fadeClass, setFadeClass] = useState('opacity-100')
-  const [randomFact] = useState(() => funFacts[Math.floor(Math.random() * funFacts.length)])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -98,12 +85,6 @@ export function LoadingSpinner() {
             </p>
           </div>
           
-          {/* Fun fact */}
-          <div className="mt-6 p-3 bg-purple-50 rounded-lg">
-            <p className="text-xs text-purple-700">
-              {randomFact}
-            </p>
-          </div>
         </div>
       </div>
     </div>
