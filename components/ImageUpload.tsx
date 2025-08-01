@@ -44,7 +44,7 @@ export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) 
   return (
     <div className="space-y-6">
       <div
-        className="border-2 border-dashed border-dark-300 rounded-card p-8 text-center hover:border-amber transition-colors cursor-pointer"
+        className="border-2 border-dashed border-purple-200 rounded-2xl p-8 text-center hover:border-purple-400 transition-colors cursor-pointer"
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
         onClick={() => fileInputRef.current?.click()}
@@ -58,11 +58,11 @@ export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) 
           className="hidden"
         />
         
-        <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-200 mb-2">
+        <Upload className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+        <h3 className="text-lg font-medium text-slate-900 mb-2">
           Upload your design work
         </h3>
-        <p className="text-gray-400 mb-4">
+        <p className="text-gray-600 mb-4">
           Drag and drop images here or click to select
         </p>
         <p className="text-sm text-gray-500">
@@ -74,7 +74,7 @@ export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((image, index) => (
             <div key={index} className="relative group">
-              <div className="aspect-square bg-dark-200 rounded-card overflow-hidden border border-dark-300">
+              <div className="aspect-square bg-slate-100 rounded-2xl overflow-hidden border border-purple-200">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={URL.createObjectURL(image)}
@@ -88,7 +88,7 @@ export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) 
               >
                 <X className="w-4 h-4" />
               </button>
-              <div className="absolute bottom-2 left-2 bg-dark/80 text-gray-200 text-xs px-2 py-1 rounded">
+              <div className="absolute bottom-2 left-2 bg-white/90 text-slate-700 text-xs px-2 py-1 rounded">
                 {image.name.length > 15 ? `${image.name.substring(0, 15)}...` : image.name}
               </div>
             </div>
@@ -97,7 +97,7 @@ export function ImageUpload({ images, setImages, maxImages }: ImageUploadProps) 
       )}
 
       {images.length > 0 && (
-        <div className="text-center text-sm text-gray-400">
+        <div className="text-center text-sm text-gray-600">
           {images.length} of {maxImages} images uploaded
         </div>
       )}

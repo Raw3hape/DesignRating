@@ -9,41 +9,53 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Dark theme colors
-        dark: {
-          DEFAULT: '#0A0A0A',
-          100: '#1A1A1A',
-          200: '#2A2A2A',
-          300: '#3A3A3A',
-          400: '#4A4A4A',
+        // Light theme with purple accents
+        purple: {
+          50: '#FAF5FF',
+          100: '#F3E8FF',
+          200: '#E9D5FF',
+          300: '#D8B4FE',
+          400: '#C084FC',
+          500: '#A855F7',
+          600: '#9333EA',
+          700: '#7C3AED',
+          800: '#6B21A8',
+          900: '#581C87',
         },
-        // Primary accent color
-        amber: {
-          DEFAULT: '#FFB800',
-          light: '#FFC933',
-          dark: '#E6A600',
+        // Secondary violet shades
+        violet: {
+          50: '#F5F3FF',
+          100: '#EDE9FE',
+          200: '#DDD6FE',
+          300: '#C4B5FD',
+          400: '#A78BFA',
+          500: '#8B5CF6',
+          600: '#7C3AED',
+          700: '#6D28D9',
+          800: '#5B21B6',
+          900: '#4C1D95',
         },
-        // Score colors updated for dark theme
+        // Light grays for backgrounds
+        slate: {
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',
+          600: '#475569',
+          700: '#334155',
+          800: '#1E293B',
+          900: '#0F172A',
+        },
+        // Score colors with purple theme
         score: {
-          excellent: '#FFB800', // amber 90-100
-          great: '#10B981',     // green 80-89
-          good: '#3B82F6',      // blue 70-79
-          fair: '#F59E0B',      // orange 60-69
+          excellent: '#9333EA', // purple 90-100
+          great: '#7C3AED',     // violet 80-89
+          good: '#10B981',      // green 70-79
+          fair: '#F59E0B',      // amber 60-69
           poor: '#EF4444',      // red 50-59
           bad: '#DC2626',       // dark red 0-49
-        },
-        // Gray scale
-        gray: {
-          DEFAULT: '#E5E5E5',
-          100: '#F5F5F5',
-          200: '#E5E5E5',
-          300: '#D4D4D4',
-          400: '#A3A3A3',
-          500: '#737373',
-          600: '#525252',
-          700: '#404040',
-          800: '#262626',
-          900: '#171717',
         },
       },
       fontFamily: {

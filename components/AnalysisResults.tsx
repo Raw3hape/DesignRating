@@ -49,17 +49,17 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
   }
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-violet-50">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-200 mb-2">Analysis Results</h1>
-            <p className="text-gray-400">Detailed assessment of your design work</p>
+            <h1 className="text-3xl font-bold text-slate-900 mb-2">Analysis Results</h1>
+            <p className="text-gray-600">Detailed assessment of your design work</p>
           </div>
 
           {/* Score Section */}
-          <div className="card-dark mb-8">
+          <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100 mb-8">
             <ScoreDisplay score={data.score} category={data.category} />
             
             <div className="mt-6 text-center">
@@ -68,16 +68,16 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
                   Your result is better than {data.comparison.percentile}% of other works
                 </span>
               </div>
-              <p className="text-gray-400 mt-2">{data.comparison.description}</p>
+              <p className="text-gray-600 mt-2">{data.comparison.description}</p>
             </div>
           </div>
 
           {/* Images Preview */}
-          <div className="card-dark mb-8">
-            <h2 className="text-xl font-bold text-gray-200 mb-4">Analyzed Works</h2>
+          <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100 mb-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-4">Analyzed Works</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {data.images.map((image, index) => (
-                <div key={index} className="aspect-square rounded-card overflow-hidden border border-dark-300">
+                <div key={index} className="aspect-square rounded-2xl overflow-hidden border border-purple-200">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={image}
@@ -92,7 +92,7 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
           {/* Analysis Details */}
           <div className="grid md:grid-cols-2 gap-8 mb-8">
             {/* Strengths */}
-            <div className="card-dark">
+            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
               <h2 className="text-xl font-bold text-green-400 mb-4 flex items-center">
                 <div className="w-8 h-8 bg-green-400/20 rounded-lg flex items-center justify-center mr-3">
                   <span className="text-green-400">✓</span>
@@ -104,7 +104,7 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
                   data.strengths.map((strength, index) => (
                     <li key={index} className="flex items-start">
                       <div className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-gray-300">{typeof strength === 'string' ? strength : JSON.stringify(strength)}</span>
+                      <span className="text-gray-700">{typeof strength === 'string' ? strength : JSON.stringify(strength)}</span>
                     </li>
                   ))
                 ) : (
@@ -114,10 +114,10 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
             </div>
 
             {/* Improvements */}
-            <div className="card-dark">
-              <h2 className="text-xl font-bold text-amber mb-4 flex items-center">
-                <div className="w-8 h-8 bg-amber/20 rounded-lg flex items-center justify-center mr-3">
-                  <span className="text-amber">→</span>
+            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
+              <h2 className="text-xl font-bold text-purple-600 mb-4 flex items-center">
+                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                  <span className="text-purple-600">→</span>
                 </div>
                 Recommendations
               </h2>
@@ -125,8 +125,8 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
                 {data.improvements && Array.isArray(data.improvements) ? (
                   data.improvements.map((improvement, index) => (
                     <li key={index} className="flex items-start">
-                      <div className="w-2 h-2 bg-amber rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-gray-300">{typeof improvement === 'string' ? improvement : JSON.stringify(improvement)}</span>
+                      <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                      <span className="text-gray-700">{typeof improvement === 'string' ? improvement : JSON.stringify(improvement)}</span>
                     </li>
                   ))
                 ) : (
@@ -137,13 +137,13 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
           </div>
 
           {/* Detailed Insights */}
-          <div className="card-dark mb-8">
-            <h2 className="text-xl font-bold text-gray-200 mb-6">Detailed Analysis</h2>
+          <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100 mb-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-6">Detailed Analysis</h2>
             <div className="prose prose-gray max-w-none">
               {data.insights && Array.isArray(data.insights) && data.insights.length > 0 ? (
                 <div className="space-y-4">
                   {data.insights.map((insight, index) => (
-                    <p key={index} className="text-gray-300 leading-relaxed">
+                    <p key={index} className="text-gray-700 leading-relaxed">
                       {typeof insight === 'string' ? insight : JSON.stringify(insight)}
                     </p>
                   ))}
@@ -158,7 +158,7 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={handleShare}
-              className="flex items-center space-x-2 bg-dark-200 text-gray-200 px-6 py-3 rounded-card border border-dark-300 hover:bg-dark-300 transition-colors"
+              className="flex items-center space-x-2 bg-white text-slate-700 px-6 py-3 rounded-2xl border border-purple-200 hover:bg-purple-50 transition-colors shadow-sm"
             >
               <Share2 className="w-5 h-5" />
               <span>Share</span>

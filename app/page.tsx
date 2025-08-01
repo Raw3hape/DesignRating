@@ -73,7 +73,7 @@ export default function Home() {
 
   if (analysisData) {
     return (
-      <div className="min-h-screen bg-dark">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-violet-50">
         <AnalysisResults 
           data={analysisData} 
           onReset={handleReset}
@@ -84,23 +84,23 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-violet-50">
       <Header analysesCount={userAnalysesCount} />
       
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl font-bold text-gray-200 mb-6">
+          <h1 className="text-5xl font-bold text-slate-900 mb-6">
             Professional Design 
-            <span className="text-amber">
+            <span className="bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">
               {' '}Assessment
             </span>
           </h1>
           
-          <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-700 mb-12 max-w-2xl mx-auto">
             Get detailed analysis of your design work with evaluation standards of Apple, Google and other top companies
           </p>
 
-          <div className="card-dark mb-8">
+          <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100 mb-8">
             <ImageUpload 
               images={images} 
               setImages={setImages}
@@ -128,34 +128,34 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 text-left">
-            <div className="card-dark">
-              <div className="w-12 h-12 bg-amber/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-200 mb-2">Precise Assessment</h3>
-              <p className="text-gray-400">Score from 1 to 100 points with detailed analysis of strengths and weaknesses</p>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">Precise Assessment</h3>
+              <p className="text-gray-600">Score from 1 to 100 points with detailed analysis of strengths and weaknesses</p>
             </div>
 
-            <div className="card-dark">
-              <div className="w-12 h-12 bg-amber/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-200 mb-2">Fast Analysis</h3>
-              <p className="text-gray-400">Instant evaluation using advanced machine learning algorithms</p>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">Fast Analysis</h3>
+              <p className="text-gray-600">Instant evaluation using advanced machine learning algorithms</p>
             </div>
 
-            <div className="card-dark">
-              <div className="w-12 h-12 bg-amber/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-amber" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-gray-200 mb-2">Expert Advice</h3>
-              <p className="text-gray-400">Specific recommendations for improving design and enhancing professional level</p>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">Expert Advice</h3>
+              <p className="text-gray-600">Specific recommendations for improving design and enhancing professional level</p>
             </div>
           </div>
         </div>
