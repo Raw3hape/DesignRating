@@ -1,12 +1,23 @@
 'use client'
 
-import { useState } from 'react'
-import { Share2, RotateCcw, CreditCard, Info } from 'lucide-react'
+import { useState, useMemo } from 'react'
+import { Share2, RotateCcw, CreditCard, Info, Download, TrendingUp, ChartBar, Lightbulb } from 'lucide-react'
 import { AnalysisData } from '@/types'
+import { generateAnalyticsData } from '@/lib/generateAnalyticsData'
 import { getScoreColors } from '@/lib/utils'
-import { ScoreDisplay } from './ScoreDisplay'
 import { PaymentModal } from './PaymentModal'
 import { ScoringMethodModal } from './ScoringMethodModal'
+
+// Analytics components
+import { EnhancedScoreDisplay } from './analytics/EnhancedScoreDisplay'
+import { AnalyticsSummary } from './analytics/AnalyticsSummary'
+import { MetricsGrid } from './analytics/MetricsGrid'
+import { PerformanceChart } from './analytics/PerformanceChart'
+import { ScoreBreakdown } from './analytics/ScoreBreakdown'
+import { InsightsPanel } from './analytics/InsightsPanel'
+import { TrendsComparison } from './analytics/TrendsComparison'
+import { ExpertAdvice } from './analytics/ExpertAdvice'
+import { RecommendationsPanel } from './analytics/RecommendationsPanel'
 
 interface AnalysisResultsProps {
   data: AnalysisData
@@ -17,8 +28,12 @@ interface AnalysisResultsProps {
 export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisResultsProps) {
   const [showPayment, setShowPayment] = useState(false)
   const [showScoringModal, setShowScoringModal] = useState(false)
-  const colors = getScoreColors(data.score)
+  const [activeTab, setActiveTab] = useState<'overview' | 'metrics' | 'insights'>('overview')
   const needsPayment = userAnalysesCount > 3
+  
+  // Generate extended analytics data
+  const extendedData = useMemo(() => generateAnalyticsData(data), [data])
+  const colors = getScoreColors(data.score)
 
   const handleShare = async () => {
     const text = `My design scored ${data.score} out of 100 on DesignRating! 🎨✨`
@@ -34,7 +49,6 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
         console.log('Error sharing:', error)
       }
     } else {
-      // Fallback for browsers without Web Share API support
       if (navigator.clipboard) {
         await navigator.clipboard.writeText(`${text} ${window.location.href}`)
         alert('Link copied to clipboard!')
@@ -49,203 +63,290 @@ export function AnalysisResults({ data, onReset, userAnalysesCount }: AnalysisRe
       onReset()
     }
   }
+  
+  const handleExport = () => {
+    const reportData = {
+      score: data.score,
+      category: data.category,
+      date: new Date().toISOString(),
+      metrics: extendedData.metrics,
+      insights: extendedData.detailedInsights,
+      recommendations: extendedData.recommendations
+    }
+    
+    const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `design-analysis-${Date.now()}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-violet-50">
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-4 mb-4">
-              <h1 className="text-3xl font-bold text-slate-900">Analysis Results</h1>
-              <button
-                onClick={() => setShowScoringModal(true)}
-                className="inline-flex items-center space-x-1 px-3 py-1 text-purple-600 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors"
-              >
-                <Info className="w-4 h-4" />
-                <span className="text-sm font-medium">Scoring</span>
-              </button>
-            </div>
-            <p className="text-gray-600">Detailed assessment of your design work</p>
-          </div>
-
-          {/* Score Section */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100 mb-8">
-            <ScoreDisplay score={data.score} category={data.category} />
-            
-            <div className="mt-6 text-center">
-              <div className={`inline-flex items-center px-4 py-2 rounded-tag ${colors.bg} ${colors.text} ${colors.border} border`}>
-                <span className="font-medium">
-                  Your result is better than {data.comparison.percentile}% of other works
-                </span>
+              <h1 className="text-4xl font-bold text-slate-900">Design Analysis Report</h1>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowScoringModal(true)}
+                  className="inline-flex items-center space-x-1 px-3 py-1 text-purple-600 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors"
+                >
+                  <Info className="w-4 h-4" />
+                  <span className="text-sm font-medium">Methodology</span>
+                </button>
+                <button 
+                  onClick={handleExport}
+                  className="inline-flex items-center space-x-1 px-3 py-1 text-slate-600 bg-white hover:bg-slate-50 rounded-lg transition-colors border border-slate-200"
+                >
+                  <Download className="w-4 h-4" />
+                  <span className="text-sm font-medium">Export</span>
+                </button>
               </div>
-              <p className="text-gray-600 mt-2">{data.comparison.description}</p>
+            </div>
+            <p className="text-xl text-gray-600">Professional assessment with actionable insights</p>
+          </div>
+
+          {/* Navigation Tabs */}
+          <div className="flex justify-center mb-8">
+            <div className="bg-white rounded-2xl p-2 shadow-lg shadow-purple-100/50 border border-purple-100">
+              <div className="flex space-x-1">
+                <button
+                  onClick={() => setActiveTab('overview')}
+                  className={`px-6 py-3 rounded-xl font-medium transition-all ${
+                    activeTab === 'overview'
+                      ? 'bg-gradient-to-r from-purple-600 to-violet-600 text-white shadow-md'
+                      : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50'
+                  }`}
+                >
+                  <ChartBar className="w-4 h-4 inline mr-2" />
+                  Overview
+                </button>
+                <button
+                  onClick={() => setActiveTab('metrics')}
+                  className={`px-6 py-3 rounded-xl font-medium transition-all ${
+                    activeTab === 'metrics'
+                      ? 'bg-gradient-to-r from-purple-600 to-violet-600 text-white shadow-md'
+                      : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50'
+                  }`}
+                >
+                  <TrendingUp className="w-4 h-4 inline mr-2" />
+                  Metrics
+                </button>
+                <button
+                  onClick={() => setActiveTab('insights')}
+                  className={`px-6 py-3 rounded-xl font-medium transition-all ${
+                    activeTab === 'insights'
+                      ? 'bg-gradient-to-r from-purple-600 to-violet-600 text-white shadow-md'
+                      : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50'
+                  }`}
+                >
+                  <Lightbulb className="w-4 h-4 inline mr-2" />
+                  Insights
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Images Preview */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100 mb-8">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">Analyzed Works</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {data.images.map((image, index) => (
-                <div key={index} className="aspect-square rounded-2xl overflow-hidden border border-purple-200">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={image}
-                    alt={`Work ${index + 1}`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
+          {/* Tab Content */}
+          <div className="space-y-8">
+            {activeTab === 'overview' && (
+              <>
+                {/* Score and Summary */}
+                <div className="grid lg:grid-cols-3 gap-8">
+                  <div className="lg:col-span-1 flex justify-center">
+                    <EnhancedScoreDisplay score={data.score} category={data.category} />
+                  </div>
+                  
+                  <div className="lg:col-span-2 space-y-6">
+                    <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100">
+                      <h2 className="text-2xl font-bold text-slate-900 mb-4">{data.category}</h2>
+                      <div className={`inline-flex items-center px-4 py-2 rounded-full ${colors.bg} ${colors.text} ${colors.border} border mb-4`}>
+                        <span className="font-medium">
+                          Your result is better than {data.comparison.percentile}% of other works
+                        </span>
+                      </div>
+                      <p className="text-gray-600 text-lg">{data.comparison.description}</p>
+                    </div>
+                    
+                    <AnalyticsSummary 
+                      score={data.score}
+                      percentile={data.comparison.percentile}
+                      totalEvaluations={extendedData.totalEvaluations || data.images.length}
+                      improvements={data.improvements.length}
+                    />
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
+                
+                {/* Images Preview */}
+                <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100">
+                  <h2 className="text-2xl font-bold text-slate-900 mb-6">Analyzed Works</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                    {data.images.map((image, index) => (
+                      <div key={index} className="group relative aspect-square rounded-2xl overflow-hidden border-2 border-purple-200 hover:border-purple-400 transition-all duration-300">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={image}
+                          alt={`Work ${index + 1}`}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute bottom-4 left-4 text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          Design #{index + 1}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-          {/* Positives & Negatives */}
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
-            {/* What's Good */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
-              <h2 className="text-xl font-bold text-green-500 mb-4 flex items-center">
-                <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
-                  <span className="text-green-500">✓</span>
+                {/* Performance Chart */}
+                <div className="grid lg:grid-cols-2 gap-8">
+                  <PerformanceChart score={data.score} percentile={data.comparison.percentile} />
+                  
+                  {/* Quick Insights */}
+                  <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100">
+                    <h3 className="text-xl font-bold text-slate-900 mb-6">Quick Analysis</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-medium text-green-600 mb-2">Top Strengths</h4>
+                        <ul className="space-y-1">
+                          {data.strengths.slice(0, 3).map((strength, i) => (
+                            <li key={i} className="text-sm text-gray-700 flex items-start">
+                              <span className="text-green-500 mr-2">•</span>
+                              {strength}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-orange-600 mb-2">Key Improvements</h4>
+                        <ul className="space-y-1">
+                          {data.improvements.slice(0, 3).map((improvement, i) => (
+                            <li key={i} className="text-sm text-gray-700 flex items-start">
+                              <span className="text-orange-500 mr-2">•</span>
+                              {improvement}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                What&apos;s Good
-              </h2>
-              <ul className="space-y-3">
-                {data.positives && Array.isArray(data.positives) ? (
-                  data.positives.map((positive, index) => (
-                    <li key={index} className="flex items-start">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-gray-700">{typeof positive === 'string' ? positive : JSON.stringify(positive)}</span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-gray-500">No positive aspects data available</li>
-                )}
-              </ul>
-            </div>
+              </>
+            )}
 
-            {/* What's Bad */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
-              <h2 className="text-xl font-bold text-red-500 mb-4 flex items-center">
-                <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center mr-3">
-                  <span className="text-red-500">×</span>
+            {activeTab === 'metrics' && (
+              <>
+                {/* Metrics Grid */}
+                {extendedData.metrics && <MetricsGrid metrics={extendedData.metrics} />}
+                
+                <div className="grid lg:grid-cols-2 gap-8">
+                  {/* Score Breakdown */}
+                  {extendedData.breakdown && <ScoreBreakdown breakdown={extendedData.breakdown} />}
+                  
+                  {/* Detailed Analysis */}
+                  <div className="bg-white rounded-xl p-6 border border-gray-100">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-6">Detailed Feedback</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-700 mb-2">What&apos;s Working Well</h4>
+                        <div className="space-y-2">
+                          {data.positives.slice(0, 4).map((positive, i) => (
+                            <div key={i} className="p-3 bg-green-50 rounded-lg text-sm text-green-800">
+                              {positive}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-700 mb-2">Areas for Growth</h4>
+                        <div className="space-y-2">
+                          {data.negatives.slice(0, 4).map((negative, i) => (
+                            <div key={i} className="p-3 bg-orange-50 rounded-lg text-sm text-orange-800">
+                              {negative}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                What Needs Work
-              </h2>
-              <ul className="space-y-3">
-                {data.negatives && Array.isArray(data.negatives) ? (
-                  data.negatives.map((negative, index) => (
-                    <li key={index} className="flex items-start">
-                      <div className="w-2 h-2 bg-red-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-gray-700">{typeof negative === 'string' ? negative : JSON.stringify(negative)}</span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-gray-500">No negative aspects data available</li>
-                )}
-              </ul>
-            </div>
-          </div>
+              </>
+            )}
 
-          {/* Analysis Details */}
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
-            {/* Strengths */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
-              <h2 className="text-xl font-bold text-blue-500 mb-4 flex items-center">
-                <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
-                  <span className="text-blue-500">★</span>
+            {activeTab === 'insights' && (
+              <>
+                <div className="grid lg:grid-cols-2 gap-8">
+                  {/* Insights Panel */}
+                  {extendedData.detailedInsights && <InsightsPanel insights={extendedData.detailedInsights} />}
+                  
+                  {/* Trends Comparison */}
+                  {extendedData.trends && <TrendsComparison trends={extendedData.trends} />}
                 </div>
-                Key Strengths
-              </h2>
-              <ul className="space-y-3">
-                {data.strengths && Array.isArray(data.strengths) ? (
-                  data.strengths.map((strength, index) => (
-                    <li key={index} className="flex items-start">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-gray-700">{typeof strength === 'string' ? strength : JSON.stringify(strength)}</span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-gray-500">No strengths data available</li>
-                )}
-              </ul>
-            </div>
-
-            {/* Improvements */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-purple-100/50 border border-purple-100">
-              <h2 className="text-xl font-bold text-purple-600 mb-4 flex items-center">
-                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
-                  <span className="text-purple-600">→</span>
-                </div>
-                Improvement Tips
-              </h2>
-              <ul className="space-y-3">
-                {data.improvements && Array.isArray(data.improvements) ? (
-                  data.improvements.map((improvement, index) => (
-                    <li key={index} className="flex items-start">
-                      <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                      <span className="text-gray-700">{typeof improvement === 'string' ? improvement : JSON.stringify(improvement)}</span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="text-gray-500">No recommendations available</li>
-                )}
-              </ul>
-            </div>
-          </div>
-
-          {/* Detailed Insights */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100 mb-8">
-            <h2 className="text-xl font-bold text-slate-900 mb-6">Detailed Analysis</h2>
-            <div className="prose prose-gray max-w-none">
-              {data.insights && Array.isArray(data.insights) && data.insights.length > 0 ? (
-                <div className="space-y-4">
-                  {data.insights.map((insight, index) => (
-                    <p key={index} className="text-gray-700 leading-relaxed">
-                      {typeof insight === 'string' ? insight : JSON.stringify(insight)}
-                    </p>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-gray-500">No detailed analysis available</p>
-              )}
-            </div>
+                
+                {/* Expert Advice */}
+                {extendedData.expertAdvice && <ExpertAdvice advice={extendedData.expertAdvice} />}
+                
+                {/* Recommendations */}
+                {extendedData.recommendations && <RecommendationsPanel recommendations={extendedData.recommendations} />}
+              </>
+            )}
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap justify-center gap-4">
-            <button
-              onClick={handleShare}
-              className="flex items-center space-x-2 bg-white text-slate-700 px-6 py-3 rounded-2xl border border-purple-200 hover:bg-purple-50 transition-colors shadow-sm"
-            >
-              <Share2 className="w-5 h-5" />
-              <span>Share</span>
-            </button>
+          <div className="mt-12 bg-white rounded-2xl p-8 shadow-lg shadow-purple-100/50 border border-purple-100">
+            <div className="text-center mb-6">
+              <h3 className="text-xl font-bold text-slate-900 mb-2">What&apos;s Next?</h3>
+              <p className="text-gray-600">Continue improving your design skills</p>
+            </div>
+            
+            <div className="flex flex-wrap justify-center gap-4">
+              <button
+                onClick={handleShare}
+                className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-4 rounded-2xl hover:shadow-lg hover:scale-105 transition-all duration-200 font-medium"
+              >
+                <Share2 className="w-5 h-5" />
+                <span>Share Results</span>
+              </button>
 
-            <button
-              onClick={handleNewAnalysis}
-              className="btn-primary flex items-center space-x-2"
-            >
-              {needsPayment ? (
-                <>
-                  <CreditCard className="w-5 h-5" />
-                  <span>New Analysis ($0.99)</span>
-                </>
-              ) : (
-                <>
-                  <RotateCcw className="w-5 h-5" />
-                  <span>New Analysis</span>
-                </>
-              )}
-            </button>
+              <button
+                onClick={handleNewAnalysis}
+                className="btn-primary flex items-center space-x-2 px-8 py-4 text-lg"
+              >
+                {needsPayment ? (
+                  <>
+                    <CreditCard className="w-5 h-5" />
+                    <span>New Analysis ($0.99)</span>
+                  </>
+                ) : (
+                  <>
+                    <RotateCcw className="w-5 h-5" />
+                    <span>Analyze More Designs</span>
+                  </>
+                )}
+              </button>
 
-            <button
-              onClick={onReset}
-              className="btn-secondary flex items-center space-x-2"
-            >
-              <RotateCcw className="w-5 h-5" />
-              <span>Start Over</span>
-            </button>
+              <button
+                onClick={onReset}
+                className="btn-secondary flex items-center space-x-2 px-8 py-4 text-lg"
+              >
+                <RotateCcw className="w-5 h-5" />
+                <span>Start Fresh</span>
+              </button>
+            </div>
+
+            {/* Achievement Badge for High Scores */}
+            {data.score >= 85 && (
+              <div className="mt-8 p-6 bg-gradient-to-r from-purple-600 to-violet-600 rounded-2xl text-white text-center">
+                <div className="text-4xl mb-3">🎉</div>
+                <h4 className="text-xl font-bold mb-2">Congratulations!</h4>
+                <p className="text-purple-100">You&apos;ve achieved professional-level design quality. Share your success!</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

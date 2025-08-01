@@ -6,48 +6,54 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getScoreColors(score: number): ScoreColors {
+export function getScoreColors(score: number): ScoreColors & { primary?: string } {
   if (score >= 85) {
     // 100-85: фиолетовый
     return {
       bg: 'bg-purple-100',
       text: 'text-purple-700',
-      border: 'border-purple-300'
+      border: 'border-purple-300',
+      primary: '#7c3aed'
     }
   } else if (score >= 70) {
     // 84-70: голубой
     return {
       bg: 'bg-blue-100',
       text: 'text-blue-700',
-      border: 'border-blue-300'
+      border: 'border-blue-300',
+      primary: '#3b82f6'
     }
   } else if (score >= 60) {
     // 69-60: зеленый
     return {
       bg: 'bg-green-100',
       text: 'text-green-700',
-      border: 'border-green-300'
+      border: 'border-green-300',
+      primary: '#10b981'
     }
   } else if (score >= 50) {
     // 59-50: желтый
     return {
       bg: 'bg-yellow-100',
       text: 'text-yellow-700',
-      border: 'border-yellow-300'
+      border: 'border-yellow-300',
+      primary: '#f59e0b'
     }
   } else if (score >= 40) {
     // 49-40: оранжевый
     return {
       bg: 'bg-orange-100',
       text: 'text-orange-700',
-      border: 'border-orange-300'
+      border: 'border-orange-300',
+      primary: '#f97316'
     }
   } else {
     // 39-0: красный
     return {
       bg: 'bg-red-100',
       text: 'text-red-700',
-      border: 'border-red-300'
+      border: 'border-red-300',
+      primary: '#ef4444'
     }
   }
 }
