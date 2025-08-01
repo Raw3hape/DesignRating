@@ -1,36 +1,107 @@
-import { kv } from '@vercel/kv'
+import { put, head, list, del } from '@vercel/blob'
 import { User, Analysis, GlobalStats, DailyStats } from '@/types'
+import { FileStorage } from './storage'
+
+// In-memory cache for performance
+const memoryCache = new Map<string, { data: unknown; timestamp: number }>()
+const CACHE_TTL = 60000 // 1 minute cache
 
 // Fallback storage for local development
 const memoryStorage = new Map<string, unknown>()
 
+// Storage mode detection
+type StorageMode = 'blob' | 'file' | 'memory'
+
+function getStorageMode(): StorageMode {
+  if (process.env.BLOB_READ_WRITE_TOKEN) return 'blob'
+  if (process.env.NODE_ENV === 'production') return 'memory' // Use memory in production without Blob
+  return 'file' // Use file system in development
+}
+
 export class KVService {
   static async isAvailable(): Promise<boolean> {
-    return !!process.env.KV_REST_API_URL
+    const mode = getStorageMode()
+    return mode !== 'memory'
   }
 
   static async get<T>(key: string): Promise<T | null> {
     try {
-      if (await this.isAvailable()) {
-        return await kv.get<T>(key)
-      } else {
-        return (memoryStorage.get(key) as T) || null
+      // Check cache first
+      const cached = memoryCache.get(key)
+      if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+        return cached.data as T
+      }
+
+      const mode = getStorageMode()
+      
+      switch (mode) {
+        case 'blob':
+          try {
+            // Try to get from Blob storage
+            const blobKey = `data/${key}.json`
+            const response = await head(blobKey)
+            
+            if (response) {
+              const blob = await fetch(response.url)
+              const data = await blob.json()
+              
+              // Update cache
+              memoryCache.set(key, { data, timestamp: Date.now() })
+              return data as T
+            }
+          } catch (blobError) {
+            // File doesn't exist
+            return null
+          }
+          break
+          
+        case 'file':
+          const fileData = await FileStorage.get<T>(key)
+          if (fileData) {
+            memoryCache.set(key, { data: fileData, timestamp: Date.now() })
+          }
+          return fileData
+          
+        case 'memory':
+          return (memoryStorage.get(key) as T) || null
       }
     } catch (error) {
-      console.error(`KV get error for key ${key}:`, error)
+      console.error(`Storage get error for key ${key}:`, error)
       return (memoryStorage.get(key) as T) || null
     }
+    return null
   }
 
   static async set<T>(key: string, value: T): Promise<void> {
     try {
-      if (await this.isAvailable()) {
-        await kv.set(key, value)
-      } else {
-        memoryStorage.set(key, value)
+      // Update cache
+      memoryCache.set(key, { data: value, timestamp: Date.now() })
+      
+      const mode = getStorageMode()
+      
+      switch (mode) {
+        case 'blob':
+          // Save to Blob storage
+          const blobKey = `data/${key}.json`
+          const jsonData = JSON.stringify(value, null, 2)
+          const blob = new Blob([jsonData], { type: 'application/json' })
+          
+          await put(blobKey, blob, {
+            access: 'public',
+            addRandomSuffix: false
+          })
+          break
+          
+        case 'file':
+          await FileStorage.set(key, value)
+          break
+          
+        case 'memory':
+          memoryStorage.set(key, value)
+          break
       }
     } catch (error) {
-      console.error(`KV set error for key ${key}:`, error)
+      console.error(`Storage set error for key ${key}:`, error)
       // Fallback to memory storage
       memoryStorage.set(key, value)
     }
@@ -38,29 +109,42 @@ export class KVService {
 
   static async del(key: string): Promise<void> {
     try {
-      if (await this.isAvailable()) {
-        await kv.del(key)
-      } else {
-        memoryStorage.delete(key)
+      // Remove from cache
+      memoryCache.delete(key)
+      
+      const mode = getStorageMode()
+      
+      switch (mode) {
+        case 'blob':
+          const blobKey = `data/${key}.json`
+          await del(blobKey)
+          break
+          
+        case 'file':
+          await FileStorage.del(key)
+          break
+          
+        case 'memory':
+          memoryStorage.delete(key)
+          break
       }
     } catch (error) {
-      console.error(`KV del error for key ${key}:`, error)
+      console.error(`Storage del error for key ${key}:`, error)
       memoryStorage.delete(key)
     }
   }
 
   static async incr(key: string): Promise<number> {
     try {
-      if (await this.isAvailable()) {
-        return await kv.incr(key)
-      } else {
-        const current = (memoryStorage.get(key) as number) || 0
-        const newValue = current + 1
-        memoryStorage.set(key, newValue)
-        return newValue
-      }
+      // Get current value
+      const current = (await this.get<number>(key)) || 0
+      const newValue = current + 1
+      
+      // Save new value
+      await this.set(key, newValue)
+      return newValue
     } catch (error) {
-      console.error(`KV incr error for key ${key}:`, error)
+      console.error(`Storage incr error for key ${key}:`, error)
       const current = (memoryStorage.get(key) as number) || 0
       const newValue = current + 1
       memoryStorage.set(key, newValue)

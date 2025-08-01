@@ -108,10 +108,9 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
     "<third specific improvement>"
   ],
   "insights": [
-    "<2-3 sentence paragraph about what makes this design work or not work. Discuss the core strengths and how they contribute to the overall effectiveness. Explain the design philosophy evident in the work.>",
-    "<2-3 sentence paragraph analyzing the designer's skill level and potential. Comment on their understanding of design principles and technical execution. Suggest areas where their natural talents shine through.>",
-    "<2-3 sentence paragraph comparing to industry standards and current trends. Explain how the work positions itself in the current design landscape. Mention specific movements or styles it aligns with or diverges from.>",
-    "<2-3 sentence paragraph with specific, actionable advice for reaching the next level. Focus on concrete steps they can take to improve. End with an encouraging note about their growth potential.>"
+    "<exactly 1 sentence analyzing what makes this design work and its core strengths>",
+    "<exactly 1 sentence about the designer's skill level and potential for growth>",
+    "<exactly 1 sentence with specific actionable advice for improvement>"
   ]
 }`
 
@@ -178,10 +177,9 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
               "Enhance interactive elements"
             ],
             insights: [
-              "The design demonstrates a solid understanding of fundamental principles with clean visual hierarchy and thoughtful use of space. The composition shows careful consideration of user needs and creates a pleasant viewing experience. This foundation provides an excellent starting point for further refinement.",
-              "The designer shows promising technical skills and an eye for aesthetics that suggests strong potential for growth. Their work indicates a good grasp of modern design tools and methodologies. With continued practice and exposure to diverse design challenges, they can develop their unique creative voice.",
-              "The work aligns well with contemporary design standards, embracing minimalism and clarity that characterizes current trends. It successfully avoids common pitfalls while maintaining professional polish. To stand out further, consider exploring more experimental approaches within this solid framework.",
-              "To reach the next level, focus on developing a distinctive style that sets your work apart while maintaining this strong technical foundation. Study how leading designers inject personality into their work without sacrificing usability. Your journey shows great promise - keep pushing boundaries while refining your craft."
+              "The design demonstrates solid fundamental principles with clean visual hierarchy and thoughtful composition that creates an effective user experience.",
+              "The designer shows promising technical skills and aesthetic understanding with strong potential for continued growth in the field.",
+              "Focus on developing a distinctive style by studying how leading designers inject personality while maintaining usability - your foundation is strong."
             ]
           }
         }
@@ -207,10 +205,9 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
             "Optimize CTA element placement for better conversion"
           ],
           insights: [
-            "The design demonstrates a professional approach to user interface creation with excellent use of grid systems and modern design principles. The attention to visual rhythm and spacing creates a premium product feeling that resonates with users. This level of craftsmanship shows maturity in design thinking and execution.",
-            "Particularly noteworthy is the skillful use of micro-animations and transitions that bring the interface to life without overwhelming the user. The designer shows deep understanding of UX principles by knowing exactly when and where to add motion. This restraint combined with technical skill is what separates good designers from great ones.",
-            "The work aligns beautifully with current industry standards while maintaining its own distinctive character. It successfully incorporates Material Design principles without feeling derivative or generic. This balance between following best practices and creative interpretation is commendable.",
-            "To elevate this already excellent work, consider exploring more experimental color combinations or unique layout structures that could become your signature style. Study how agencies like Fantasy or Pentagram push boundaries while maintaining usability. Your foundation is strong - now it's time to develop your unique design voice."
+            "The design demonstrates professional maturity with excellent grid systems, visual rhythm, and spacing that creates a premium product feeling.",
+            "Particularly impressive is the skillful use of micro-animations and restraint in motion design, showing deep UX understanding that separates good designers from great ones.",
+            "To elevate further, explore experimental color combinations and unique layout structures studied from agencies like Fantasy or Pentagram to develop your signature style."
           ]
         },
         {
@@ -227,8 +224,9 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
             "Conduct accessibility testing for users with disabilities"
           ],
           insights: [
-            "This design is at the level of top design studios' work. Every element is thoughtful and serves specific purpose, creating seamless user experience.",
-            "Particularly impressive is the use of space and creating emotional connection with user through visual elements. This is mature designer's work."
+            "This design reaches the level of top design studios with every element serving a specific purpose in creating a seamless user experience.",
+            "Particularly impressive is the masterful use of space and visual elements that create genuine emotional connection with users.",
+            "Consider expanding your portfolio with experimental projects to showcase this exceptional skill level to potential clients or employers."
           ]
         },
         {
@@ -245,8 +243,9 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
             "Add more dynamics through animations and micro-interactions"
           ],
           insights: [
-            "Design shows good understanding of basics but needs refinement to achieve premium level. Basic structure is correct.",
-            "Recommended to study latest trends in interface design and apply them to enhance modernity and attractiveness of work."
+            "The design shows good understanding of fundamentals but needs refinement in visual hierarchy and modern aesthetics to reach premium level.",
+            "Your technical foundation is solid with clear potential for growth through studying contemporary design trends and best practices.",
+            "Study award-winning designs on Behance and Dribbble daily, then practice recreating elements to build your visual vocabulary."
           ]
         }
       ]

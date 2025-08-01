@@ -41,21 +41,32 @@ export default function AdminPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('Admin login attempt')
+    
+    if (!apiKey) {
+      setError('Please enter an API key')
+      return
+    }
+    
     setLoading(true)
     setError('')
 
     try {
       const response = await fetch(`/api/admin/stats?apiKey=${encodeURIComponent(apiKey)}`)
-      const data = await response.json()
-
+      
       if (!response.ok) {
-        throw new Error(data.error || 'Authentication failed')
+        const data = await response.json()
+        throw new Error(data.error || `Authentication failed (${response.status})`)
       }
-
+      
+      const data = await response.json()
+      console.log('Admin login successful')
+      
       setStats(data.data)
       setIsAuthenticated(true)
       localStorage.setItem('adminApiKey', apiKey)
     } catch (err) {
+      console.error('Admin login error:', err)
       setError(err instanceof Error ? err.message : 'Authentication failed')
     } finally {
       setLoading(false)
@@ -127,8 +138,8 @@ export default function AdminPage() {
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full bg-slate-900 text-white py-3 rounded-lg hover:bg-slate-800 transition-colors disabled:opacity-50"
+              disabled={loading || !apiKey}
+              className="w-full bg-slate-900 text-white py-3 rounded-lg hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Authenticating...' : 'Access Dashboard'}
             </button>
