@@ -1,0 +1,21 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+  "functions": {
+    "app/api/analyze/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/payment/route.ts": {
+      "maxDuration": 10
+    }
+  },
+  "env": {
+    "OPENAI_API_KEY": "@openai_api_key",
+    "STRIPE_PUBLISHABLE_KEY": "@stripe_publishable_key", 
+    "STRIPE_SECRET_KEY": "@stripe_secret_key",
+    "STRIPE_WEBHOOK_SECRET": "@stripe_webhook_secret"
+  }
+}
