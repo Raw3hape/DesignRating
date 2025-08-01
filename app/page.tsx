@@ -23,6 +23,12 @@ export default function Home() {
       // Compress images before sending
       const compressedImages = await compressImages(images)
       
+      // Check total size
+      const totalSize = compressedImages.reduce((sum, img) => sum + img.size, 0)
+      if (totalSize > 10 * 1024 * 1024) { // 10MB total limit
+        throw new Error('Total image size is too large. Please use smaller images.')
+      }
+      
       const formData = new FormData()
       compressedImages.forEach((image, index) => {
         formData.append(`image${index}`, image)

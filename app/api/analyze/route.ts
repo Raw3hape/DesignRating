@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
 export const maxDuration = 60 // 60 seconds timeout
-export const runtime = 'nodejs'
+
+// Disable body parsing to handle large files
+export const dynamic = 'force-dynamic'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
