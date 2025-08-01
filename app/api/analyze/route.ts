@@ -74,24 +74,28 @@ export async function POST(request: NextRequest) {
     )
 
     // Create detailed prompt for design analysis
-    const prompt = `You are a senior design director from a top tech company (Apple, Google, Microsoft). Analyze these design works professionally.
+    const prompt = `You are an extremely critical senior design director from a top tech company (Apple, Google, Microsoft) with 20+ years of experience. Apply the highest professional standards when evaluating these works. Be very strict and demanding in your assessment.
 
-Evaluate each aspect carefully:
-1. Visual hierarchy and composition balance
-2. Typography system and readability
-3. Color theory application and accessibility
-4. White space usage and visual breathing room
-5. Innovation and creative solutions
-6. User experience and intuitive interactions
-7. Technical execution and attention to detail
-8. Alignment with modern design trends
+Evaluate each aspect with extreme scrutiny:
+1. Visual hierarchy and composition balance - Look for ANY misalignment or imbalance
+2. Typography system and readability - Criticize ANY inconsistency or poor choices
+3. Color theory application and accessibility - Deduct points for ANY accessibility issues
+4. White space usage and visual breathing room - Notice ANY cramped or wasteful spacing
+5. Innovation and creative solutions - Expect truly unique approaches, not clichés
+6. User experience and intuitive interactions - Find ANY friction points or confusion
+7. Technical execution and attention to detail - Spot EVERY pixel imperfection
+8. Alignment with modern design trends - Distinguish between following and leading trends
 
-Scoring guide:
-- 90-100: World-class design (Apple, Google design awards level)
-- 80-89: Excellent professional work
-- 70-79: Good design with solid fundamentals
-- 60-69: Average with room for improvement
-- Below 60: Needs significant improvement
+CRITICAL Scoring guide (BE VERY STRICT):
+- 90-100: Exceptional, award-winning design (less than 1% of all work) - Must be flawless AND innovative
+- 80-89: Outstanding professional work (top 5%) - Near-perfect execution with unique elements
+- 70-79: Very good design (top 15%) - Strong fundamentals with minor flaws
+- 60-69: Above average (top 30%) - Competent but lacks distinction
+- 50-59: Average work (middle 40%) - Acceptable but forgettable
+- 40-49: Below average (bottom 20%) - Clear weaknesses outweigh strengths
+- Below 40: Poor quality (bottom 10%) - Fundamental issues throughout
+
+Remember: Most professional work falls in the 50-70 range. Scores above 80 should be RARE. Be honest and strict.
 
 IMPORTANT: Return ONLY valid JSON, no additional text. The response must be parseable JSON in this exact format:
 {
@@ -164,8 +168,8 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
           
           // Fallback to demo analysis
           analysisResult = {
-            score: 75,
-            category: "Good",
+            score: 58,
+            category: "Average",
             strengths: [
               "Clean and modern visual design",
               "Good use of color and typography",
@@ -177,9 +181,9 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
               "Enhance interactive elements"
             ],
             insights: [
-              "The design demonstrates solid fundamental principles with clean visual hierarchy and thoughtful composition that creates an effective user experience.",
-              "The designer shows promising technical skills and aesthetic understanding with strong potential for continued growth in the field.",
-              "Focus on developing a distinctive style by studying how leading designers inject personality while maintaining usability - your foundation is strong."
+              "The design shows competent execution of basic principles but lacks the refinement and attention to detail expected at professional level.",
+              "Technical skills are adequate but the work needs significant polish to compete in today's saturated design market.",
+              "Study grid systems rigorously and analyze award-winning work daily to understand the gap between good and exceptional design."
             ]
           }
         }
@@ -192,60 +196,60 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
       // Demo analysis without OpenAI API
       const demoAnalyses = [
         {
-          score: 87,
-          category: "Excellent",
+          score: 72,
+          category: "Very Good",
           strengths: [
-            "Outstanding composition with clear visual hierarchy",
-            "Modern and stylish typography, excellent readability",
-            "Harmonious color palette with proper accents"
+            "Visual hierarchy is well-established with good use of size contrast",
+            "Typography choices are modern and mostly consistent",
+            "Color palette shows understanding of basic harmony principles"
           ],
           improvements: [
-            "Add more breathing room between elements for better perception",
-            "Consider increasing contrast for some text elements",
-            "Optimize CTA element placement for better conversion"
+            "Several alignment issues detected in grid structure",
+            "Typography scale could be more refined for better rhythm",
+            "Some interactive elements lack proper hover states"
           ],
           insights: [
-            "The design demonstrates professional maturity with excellent grid systems, visual rhythm, and spacing that creates a premium product feeling.",
-            "Particularly impressive is the skillful use of micro-animations and restraint in motion design, showing deep UX understanding that separates good designers from great ones.",
-            "To elevate further, explore experimental color combinations and unique layout structures studied from agencies like Fantasy or Pentagram to develop your signature style."
+            "Strong execution with good attention to visual rhythm and spacing, though some refinements could elevate it to exceptional level.",
+            "The designer demonstrates solid professional skills with room to push boundaries and develop a more distinctive voice.",
+            "Challenge yourself with experimental projects that break conventional rules while maintaining usability to reach the next tier."
           ]
         },
         {
-          score: 93,
+          score: 84,
           category: "Outstanding",
           strengths: [
-            "Innovative approach to solving user tasks",
-            "Flawless technical execution and attention to detail",
-            "Perfect balance of functionality and aesthetics"
+            "Strong conceptual approach with unique problem-solving",
+            "Excellent technical execution with minimal flaws",
+            "Good balance between form and function"
           ],
           improvements: [
-            "Consider adaptation for different screen sizes",
-            "Add states for interactive elements",
-            "Conduct accessibility testing for users with disabilities"
+            "Minor spacing inconsistencies in mobile breakpoints",
+            "Loading states could be more refined",
+            "Color contrast fails WCAG AAA in two instances"
           ],
           insights: [
-            "This design reaches the level of top design studios with every element serving a specific purpose in creating a seamless user experience.",
-            "Particularly impressive is the masterful use of space and visual elements that create genuine emotional connection with users.",
-            "Consider expanding your portfolio with experimental projects to showcase this exceptional skill level to potential clients or employers."
+            "Excellent work approaching industry-leading standards with thoughtful decisions throughout, though not quite reaching the innovative edge of award winners.",
+            "The designer shows mature understanding of craft with consistent execution that would succeed in most professional contexts.",
+            "Push beyond safe choices by studying cutting-edge work from agencies like IDEO or Pentagram to add that final 10% of magic."
           ]
         },
         {
-          score: 76,
-          category: "Good",
+          score: 65,
+          category: "Above Average",
           strengths: [
-            "Clear structure and logical navigation",
-            "Appropriate use of graphic elements",
-            "Compliance with basic UX principles"
+            "Basic structure follows standard conventions",
+            "Navigation is functional and findable",
+            "Shows understanding of fundamental design principles"
           ],
           improvements: [
-            "Improve visual hierarchy through sizes and contrasts",
-            "Update color palette according to modern trends",
-            "Add more dynamics through animations and micro-interactions"
+            "Visual hierarchy needs significant strengthening",
+            "Typography system lacks coherence and scale",
+            "Overall execution feels dated and needs modernization"
           ],
           insights: [
-            "The design shows good understanding of fundamentals but needs refinement in visual hierarchy and modern aesthetics to reach premium level.",
-            "Your technical foundation is solid with clear potential for growth through studying contemporary design trends and best practices.",
-            "Study award-winning designs on Behance and Dribbble daily, then practice recreating elements to build your visual vocabulary."
+            "Competent work that meets basic professional standards but lacks the polish and sophistication expected in competitive markets.",
+            "The designer shows promise but needs significant practice and exposure to elevate beyond average execution.",
+            "Dedicate time to mastering typography and grid systems - these fundamentals will transform your work from acceptable to exceptional."
           ]
         }
       ]
@@ -253,24 +257,27 @@ IMPORTANT: Return ONLY valid JSON, no additional text. The response must be pars
       analysisResult = demoAnalyses[Math.floor(Math.random() * demoAnalyses.length)]
     }
 
-    // Calculate percentile based on score
+    // Calculate percentile based on score (adjusted for stricter scoring)
     const calculatePercentile = (score: number): number => {
-      if (score >= 90) return Math.floor(Math.random() * 8) + 92 // 92-99%
-      if (score >= 80) return Math.floor(Math.random() * 15) + 77 // 77-91%
-      if (score >= 70) return Math.floor(Math.random() * 25) + 52 // 52-76%
-      if (score >= 60) return Math.floor(Math.random() * 28) + 24 // 24-51%
-      if (score >= 50) return Math.floor(Math.random() * 16) + 8  // 8-23%
-      return Math.floor(Math.random() * 8) + 1 // 1-7%
+      if (score >= 90) return Math.floor(Math.random() * 3) + 97  // 97-99% (top 1%)
+      if (score >= 80) return Math.floor(Math.random() * 5) + 92  // 92-96% (top 5%)
+      if (score >= 70) return Math.floor(Math.random() * 10) + 82 // 82-91% (top 15%)
+      if (score >= 60) return Math.floor(Math.random() * 15) + 67 // 67-81% (top 30%)
+      if (score >= 50) return Math.floor(Math.random() * 20) + 47 // 47-66% (middle 40%)
+      if (score >= 40) return Math.floor(Math.random() * 20) + 27 // 27-46% (bottom 20%)
+      return Math.floor(Math.random() * 26) + 1 // 1-26% (bottom 10%)
     }
 
     const percentile = calculatePercentile(analysisResult.score)
     
     const getComparisonDescription = (score: number): string => {
-      if (score >= 90) return "Your work is at the level of world's best designers!"
-      if (score >= 80) return "Excellent result! You're among top professional designers."
-      if (score >= 70) return "Good level! There's potential for growth."
-      if (score >= 60) return "Average result with good improvement prospects."
-      return "There's work to be done, but you have basic skills."
+      if (score >= 90) return "Exceptional work approaching world-class standards - extremely rare achievement!"
+      if (score >= 80) return "Outstanding professional level - you're among the industry's best designers."
+      if (score >= 70) return "Very strong work showing advanced skills - well above average professional standard."
+      if (score >= 60) return "Good professional level with room to grow - better than most but not yet exceptional."
+      if (score >= 50) return "Average professional work - meets industry standards but needs refinement."
+      if (score >= 40) return "Below professional standards - significant improvement needed to compete."
+      return "Fundamental skills require development - focus on mastering basics first."
     }
 
     // Create URLs for images (in real project would save to cloud)

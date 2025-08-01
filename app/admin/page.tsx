@@ -34,7 +34,7 @@ interface StatsData {
 
 export default function AdminPage() {
   const [stats, setStats] = useState<StatsData | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true) // Initially true
   const [error, setError] = useState('')
   const [apiKey, setApiKey] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -75,7 +75,10 @@ export default function AdminPage() {
 
   const loadStats = async () => {
     const savedApiKey = localStorage.getItem('adminApiKey')
-    if (!savedApiKey) return
+    if (!savedApiKey) {
+      setLoading(false)
+      return
+    }
 
     setApiKey(savedApiKey)
     setLoading(true)
